@@ -22,14 +22,14 @@ from meltingpot.testing import bots as test_utils
 @parameterized.named_parameters((name, name) for name in bot.BOTS)
 class BotTest(test_utils.BotTestCase):
 
-  def test_step_without_error(self, name):
-    factory = bot.get_factory(name)
-    with factory.build() as policy:
-      self.assert_compatible(
-          policy,
-          timestep_spec=factory.timestep_spec(),
-          action_spec=factory.action_spec())
+    def test_step_without_error(self, name):
+        factory = bot.get_factory(name)
+        with factory.build() as policy:
+            self.assert_compatible(
+                policy,
+                timestep_spec=factory.timestep_spec(),
+                action_spec=factory.action_spec())
 
 
 if __name__ == '__main__':
-  absltest.main()
+    absltest.main()

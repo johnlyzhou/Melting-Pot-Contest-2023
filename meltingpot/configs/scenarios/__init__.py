@@ -22,33 +22,33 @@ import immutabledict
 
 @dataclasses.dataclass(frozen=True)
 class ScenarioConfig:
-  """Scenario config.
+    """Scenario config.
 
-  Attributes:
-    description: a description of the scenario.
-    tags: tags for the scenario.
-    substrate: the substrate the scenario is based on.
-    roles: indicates what role the player in the corresponding player slot has.
-    is_focal: indicates whether the corresponding player slot is to be filled by
-      a focal player or a bot.
-    bots_by_role: names of the bots to sample from to fill the bot slots with
-      the corresponding role.
-  """
-  description: str
-  tags: AbstractSet[str]
-  substrate: str
-  roles: Sequence[str]
-  is_focal: Sequence[bool]
-  bots_by_role: Mapping[str, AbstractSet[str]]
+    Attributes:
+      description: a description of the scenario.
+      tags: tags for the scenario.
+      substrate: the substrate the scenario is based on.
+      roles: indicates what role the player in the corresponding player slot has.
+      is_focal: indicates whether the corresponding player slot is to be filled by
+        a focal player or a bot.
+      bots_by_role: names of the bots to sample from to fill the bot slots with
+        the corresponding role.
+    """
+    description: str
+    tags: AbstractSet[str]
+    substrate: str
+    roles: Sequence[str]
+    is_focal: Sequence[bool]
+    bots_by_role: Mapping[str, AbstractSet[str]]
 
-  def __post_init__(self):
-    object.__setattr__(self, 'tags', frozenset(self.tags))
-    object.__setattr__(self, 'roles', tuple(self.roles))
-    object.__setattr__(self, 'is_focal', tuple(self.is_focal))
-    bots_by_role = immutabledict.immutabledict({
-        role: frozenset(bots) for role, bots in self.bots_by_role.items()
-    })
-    object.__setattr__(self, 'bots_by_role', bots_by_role)
+    def __post_init__(self):
+        object.__setattr__(self, 'tags', frozenset(self.tags))
+        object.__setattr__(self, 'roles', tuple(self.roles))
+        object.__setattr__(self, 'is_focal', tuple(self.is_focal))
+        bots_by_role = immutabledict.immutabledict({
+            role: frozenset(bots) for role, bots in self.bots_by_role.items()
+        })
+        object.__setattr__(self, 'bots_by_role', bots_by_role)
 
 
 # Local additions/overrides.
@@ -56,14 +56,14 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     # keep-sorted start numeric=yes block=yes
     allelopathic_harvest__open_0=ScenarioConfig(
         description=(
-            'visiting a population where planting green berries is the ' +
-            'prevailing convention'),
+                'visiting a population where planting green berries is the ' +
+                'prevailing convention'),
         tags={
             'visitor',
             'convention_following',
         },
         substrate='allelopathic_harvest__open',
-        roles=['player_who_likes_red',] * 8 + ['player_who_likes_green',] * 8,
+        roles=['player_who_likes_red', ] * 8 + ['player_who_likes_green', ] * 8,
         is_focal=(True,) * 4 + (False,) * 12,
         bots_by_role={
             # The same bots can play both roles.
@@ -83,14 +83,14 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     allelopathic_harvest__open_1=ScenarioConfig(
         description=(
-            'visiting a population where planting red berries is the ' +
-            'prevailing convention'),
+                'visiting a population where planting red berries is the ' +
+                'prevailing convention'),
         tags={
             'visitor',
             'convention_following',
         },
         substrate='allelopathic_harvest__open',
-        roles=['player_who_likes_red',] * 8 + ['player_who_likes_green',] * 8,
+        roles=['player_who_likes_red', ] * 8 + ['player_who_likes_green', ] * 8,
         is_focal=(True,) * 4 + (False,) * 12,
         bots_by_role={
             # The same bots can play both roles.
@@ -110,13 +110,13 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     allelopathic_harvest__open_2=ScenarioConfig(
         description=(
-            'focals are resident and visited by bots who plant either red or ' +
-            'green'),
+                'focals are resident and visited by bots who plant either red or ' +
+                'green'),
         tags={
             'resident',
         },
         substrate='allelopathic_harvest__open',
-        roles=['player_who_likes_red',] * 8 + ['player_who_likes_green',] * 8,
+        roles=['player_who_likes_red', ] * 8 + ['player_who_likes_green', ] * 8,
         is_focal=(True,) * 14 + (False,) * 2,
         bots_by_role={
             'player_who_likes_green': {
@@ -788,9 +788,9 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     chicken_in_the_matrix__arena_5=ScenarioConfig(
         description=(
-            'visiting a mixed population of k-strikes grim reciprocator bots ' +
-            'with k values from 1 to 3, they initially cooperate but, if ' +
-            'defected on k times, they retaliate in all future interactions'
+                'visiting a mixed population of k-strikes grim reciprocator bots ' +
+                'with k values from 1 to 3, they initially cooperate but, if ' +
+                'defected on k times, they retaliate in all future interactions'
         ),
         tags={
             'visitor',
@@ -1044,7 +1044,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 7,
         is_focal=(True,) * 3 + (False,) * 4,
         bots_by_role={
-            'default': {'clean_up__puppet_alternator_first_cleans_0',},
+            'default': {'clean_up__puppet_alternator_first_cleans_0', },
         },
     ),
     clean_up_3=ScenarioConfig(
@@ -1058,7 +1058,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 7,
         is_focal=(True,) * 3 + (False,) * 4,
         bots_by_role={
-            'default': {'clean_up__puppet_alternator_first_eats_0',},
+            'default': {'clean_up__puppet_alternator_first_eats_0', },
         },
     ),
     clean_up_4=ScenarioConfig(
@@ -1071,7 +1071,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 7,
         is_focal=(True,) * 6 + (False,) * 1,
         bots_by_role={
-            'default': {'clean_up__puppet_low_threshold_reciprocator_0',},
+            'default': {'clean_up__puppet_low_threshold_reciprocator_0', },
         },
     ),
     clean_up_5=ScenarioConfig(
@@ -1084,7 +1084,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 7,
         is_focal=(True,) * 5 + (False,) * 2,
         bots_by_role={
-            'default': {'clean_up__puppet_high_threshold_reciprocator_0',},
+            'default': {'clean_up__puppet_high_threshold_reciprocator_0', },
         },
     ),
     clean_up_6=ScenarioConfig(
@@ -1097,7 +1097,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 7,
         is_focal=(True,) * 6 + (False,) * 1,
         bots_by_role={
-            'default': {'clean_up__puppet_high_threshold_reciprocator_0',},
+            'default': {'clean_up__puppet_high_threshold_reciprocator_0', },
         },
     ),
     clean_up_7=ScenarioConfig(
@@ -1110,7 +1110,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 7,
         is_focal=(True,) * 2 + (False,) * 5,
         bots_by_role={
-            'default': {'clean_up__puppet_high_threshold_reciprocator_0',},
+            'default': {'clean_up__puppet_high_threshold_reciprocator_0', },
         },
     ),
     clean_up_8=ScenarioConfig(
@@ -1123,7 +1123,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 7,
         is_focal=(True,) * 6 + (False,) * 1,
         bots_by_role={
-            'default': {'clean_up__puppet_nice_low_threshold_reciprocator_0',},
+            'default': {'clean_up__puppet_nice_low_threshold_reciprocator_0', },
         },
     ),
     coins_0=ScenarioConfig(
@@ -1137,7 +1137,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         is_focal=(True,) + (False,),
         bots_by_role={
             'default': {'coins__puppet_cooperator_0',
-                        'coins__puppet_defector_0',},
+                        'coins__puppet_defector_0', },
         },
     ),
     coins_1=ScenarioConfig(
@@ -1150,7 +1150,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 2,
         is_focal=(True,) + (False,),
         bots_by_role={
-            'default': {'coins__puppet_three_strikes_reciprocator_0',},
+            'default': {'coins__puppet_three_strikes_reciprocator_0', },
         },
     ),
     coins_2=ScenarioConfig(
@@ -1163,7 +1163,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 2,
         is_focal=(True,) + (False,),
         bots_by_role={
-            'default': {'coins__puppet_one_strike_reciprocator_0',},
+            'default': {'coins__puppet_one_strike_reciprocator_0', },
         },
     ),
     coins_3=ScenarioConfig(
@@ -1177,7 +1177,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 2,
         is_focal=(True,) + (False,),
         bots_by_role={
-            'default': {'coins__puppet_three_strikes_strong_reciprocator_0',},
+            'default': {'coins__puppet_three_strikes_strong_reciprocator_0', },
         },
     ),
     coins_4=ScenarioConfig(
@@ -1190,7 +1190,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 2,
         is_focal=(True,) + (False,),
         bots_by_role={
-            'default': {'coins__puppet_one_strike_strong_reciprocator_0',},
+            'default': {'coins__puppet_one_strike_strong_reciprocator_0', },
         },
     ),
     coins_5=ScenarioConfig(
@@ -1203,7 +1203,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 2,
         is_focal=(True,) + (False,),
         bots_by_role={
-            'default': {'coins__puppet_cooperator_0',},
+            'default': {'coins__puppet_cooperator_0', },
         },
     ),
     coins_6=ScenarioConfig(
@@ -1216,7 +1216,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 2,
         is_focal=(True,) + (False,),
         bots_by_role={
-            'default': {'coins__puppet_defector_0',},
+            'default': {'coins__puppet_defector_0', },
         },
     ),
     collaborative_cooking__asymmetric_0=ScenarioConfig(
@@ -1344,8 +1344,8 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     collaborative_cooking__crowded_0=ScenarioConfig(
         description=(
-            'collaborate with an independent chef who expects others to get ' +
-            'out of their way'),
+                'collaborate with an independent chef who expects others to get ' +
+                'out of their way'),
         tags={
             'resident',
         },
@@ -1360,8 +1360,8 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     collaborative_cooking__crowded_1=ScenarioConfig(
         description=(
-            'collaborate with several chefs who can work together, but are ' +
-            'not very good at doing so'),
+                'collaborate with several chefs who can work together, but are ' +
+                'not very good at doing so'),
         tags={
             'resident',
         },
@@ -1388,8 +1388,8 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     collaborative_cooking__figure_eight_0=ScenarioConfig(
         description=(
-            'collaborate with an independent chef who expects others to get ' +
-            'out of their way'),
+                'collaborate with an independent chef who expects others to get ' +
+                'out of their way'),
         tags={
             'resident',
         },
@@ -1404,8 +1404,8 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     collaborative_cooking__figure_eight_1=ScenarioConfig(
         description=(
-            'collaborate with two chefs who can work together, but are ' +
-            'not very good at doing so'),
+                'collaborate with two chefs who can work together, but are ' +
+                'not very good at doing so'),
         tags={
             'resident',
         },
@@ -1502,7 +1502,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'commons_harvest__closed__pacifist_0',
                         'commons_harvest__closed__pacifist_1',
-                        'commons_harvest__closed__pacifist_2',},
+                        'commons_harvest__closed__pacifist_2', },
         },
     ),
     commons_harvest__closed_1=ScenarioConfig(
@@ -1518,7 +1518,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'commons_harvest__closed__pacifist_0',
                         'commons_harvest__closed__pacifist_1',
-                        'commons_harvest__closed__pacifist_2',},
+                        'commons_harvest__closed__pacifist_2', },
         },
     ),
     commons_harvest__closed_2=ScenarioConfig(
@@ -1566,7 +1566,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         is_focal=(True,) * 5 + (False,) * 2,
         bots_by_role={
             'default': {'commons_harvest__open__free_0',
-                        'commons_harvest__open__free_1',},
+                        'commons_harvest__open__free_1', },
         },
     ),
     commons_harvest__open_1=ScenarioConfig(
@@ -1596,7 +1596,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'commons_harvest__partnership__good_partner_0',
                         'commons_harvest__partnership__good_partner_1',
-                        'commons_harvest__partnership__good_partner_2',},
+                        'commons_harvest__partnership__good_partner_2', },
         },
     ),
     commons_harvest__partnership_1=ScenarioConfig(
@@ -1612,7 +1612,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'commons_harvest__partnership__good_partner_0',
                         'commons_harvest__partnership__good_partner_1',
-                        'commons_harvest__partnership__good_partner_2',},
+                        'commons_harvest__partnership__good_partner_2', },
         },
     ),
     commons_harvest__partnership_2=ScenarioConfig(
@@ -1628,7 +1628,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         is_focal=(True,) * 1 + (False,) * 6,
         bots_by_role={
             'default': {'commons_harvest__partnership__sustainable_fighter_0',
-                        'commons_harvest__partnership__sustainable_fighter_1',},
+                        'commons_harvest__partnership__sustainable_fighter_1', },
         },
     ),
     commons_harvest__partnership_3=ScenarioConfig(
@@ -1644,7 +1644,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         is_focal=(True,) * 5 + (False,) * 2,
         bots_by_role={
             'default': {'commons_harvest__partnership__sustainable_fighter_0',
-                        'commons_harvest__partnership__sustainable_fighter_1',},
+                        'commons_harvest__partnership__sustainable_fighter_1', },
         },
     ),
     commons_harvest__partnership_4=ScenarioConfig(
@@ -1660,7 +1660,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'commons_harvest__partnership__pacifist_0',
                         'commons_harvest__partnership__pacifist_1',
-                        'commons_harvest__partnership__pacifist_2',},
+                        'commons_harvest__partnership__pacifist_2', },
         },
     ),
     commons_harvest__partnership_5=ScenarioConfig(
@@ -1676,7 +1676,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'commons_harvest__partnership__free_0',
                         'commons_harvest__partnership__free_1',
-                        'commons_harvest__partnership__free_2',},
+                        'commons_harvest__partnership__free_2', },
         },
     ),
     coop_mining_0=ScenarioConfig(
@@ -1688,7 +1688,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 6,
         is_focal=(True,) * 1 + (False,) * 5,
         bots_by_role={
-            'default': {'coop_mining__cooperator_0',},
+            'default': {'coop_mining__cooperator_0', },
         },
     ),
     coop_mining_1=ScenarioConfig(
@@ -1700,7 +1700,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 6,
         is_focal=(True,) * 1 + (False,) * 5,
         bots_by_role={
-            'default': {'coop_mining__mixed_0',},
+            'default': {'coop_mining__mixed_0', },
         },
     ),
     coop_mining_2=ScenarioConfig(
@@ -1724,7 +1724,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 6,
         is_focal=(True,) * 5 + (False,) * 1,
         bots_by_role={
-            'default': {'coop_mining__cooperator_0',},
+            'default': {'coop_mining__cooperator_0', },
         },
     ),
     coop_mining_4=ScenarioConfig(
@@ -1736,7 +1736,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 6,
         is_focal=(True,) * 5 + (False,) * 1,
         bots_by_role={
-            'default': {'coop_mining__defector_0',},
+            'default': {'coop_mining__defector_0', },
         },
     ),
     coop_mining_5=ScenarioConfig(
@@ -1749,9 +1749,9 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 5 + ('target',),
         is_focal=(True,) * 1 + (False,) * 5,
         bots_by_role={
-            'default': {'coop_mining__defector_0',},
+            'default': {'coop_mining__defector_0', },
             'target': {'coop_mining__cooperator_0',
-                       'coop_mining__mixed_0',},
+                       'coop_mining__mixed_0', },
         },
     ),
     daycare_0=ScenarioConfig(
@@ -1763,7 +1763,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('child',) + ('parent',),
         is_focal=(True,) + (False,),
         bots_by_role={
-            'parent': {'daycare__helping_parent_0',},
+            'parent': {'daycare__helping_parent_0', },
         },
     ),
     daycare_1=ScenarioConfig(
@@ -1775,7 +1775,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('child',) + ('parent',),
         is_focal=(False,) + (True,),
         bots_by_role={
-            'child': {'daycare__pointing_child_0',},
+            'child': {'daycare__pointing_child_0', },
         },
     ),
     daycare_2=ScenarioConfig(
@@ -1787,7 +1787,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('child',) + ('parent',),
         is_focal=(True,) + (False,),
         bots_by_role={
-            'parent': {'daycare__foraging_parent_0',},
+            'parent': {'daycare__foraging_parent_0', },
         },
     ),
     daycare_3=ScenarioConfig(
@@ -1799,7 +1799,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('child',) + ('parent',),
         is_focal=(False,) + (True,),
         bots_by_role={
-            'child': {'daycare__foraging_child_0',},
+            'child': {'daycare__foraging_child_0', },
         },
     ),
     externality_mushrooms__dense_0=ScenarioConfig(
@@ -1811,7 +1811,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 5,
         is_focal=(True,) + (False,) * 4,
         bots_by_role={
-            'default': {'externality_mushrooms__dense__puppet_hihe_0',},
+            'default': {'externality_mushrooms__dense__puppet_hihe_0', },
         },
     ),
     externality_mushrooms__dense_1=ScenarioConfig(
@@ -1823,7 +1823,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 5,
         is_focal=(True,) + (False,) * 4,
         bots_by_role={
-            'default': {'externality_mushrooms__dense__puppet_fize_0',},
+            'default': {'externality_mushrooms__dense__puppet_fize_0', },
         },
     ),
     externality_mushrooms__dense_2=ScenarioConfig(
@@ -1836,7 +1836,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 5,
         is_focal=(True,) * 3 + (False,) * 2,
         bots_by_role={
-            'default': {'externality_mushrooms__dense__puppet_hihe_0',},
+            'default': {'externality_mushrooms__dense__puppet_hihe_0', },
         },
     ),
     externality_mushrooms__dense_3=ScenarioConfig(
@@ -1849,7 +1849,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         roles=('default',) * 5,
         is_focal=(True,) * 3 + (False,) * 2,
         bots_by_role={
-            'default': {'externality_mushrooms__dense__puppet_fize_0',},
+            'default': {'externality_mushrooms__dense__puppet_fize_0', },
         },
     ),
     factory_commons__either_or_0=ScenarioConfig(
@@ -1863,7 +1863,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'factory_commons__either_or__sustainable_0',
                         'factory_commons__either_or__sustainable_1',
-                        'factory_commons__either_or__sustainable_2',},
+                        'factory_commons__either_or__sustainable_2', },
         },
     ),
     factory_commons__either_or_1=ScenarioConfig(
@@ -1877,7 +1877,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'factory_commons__either_or__unsustainable_0',
                         'factory_commons__either_or__unsustainable_1',
-                        'factory_commons__either_or__unsustainable_2',},
+                        'factory_commons__either_or__unsustainable_2', },
         },
     ),
     factory_commons__either_or_2=ScenarioConfig(
@@ -1891,7 +1891,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'factory_commons__either_or__sustainable_0',
                         'factory_commons__either_or__sustainable_1',
-                        'factory_commons__either_or__sustainable_2',},
+                        'factory_commons__either_or__sustainable_2', },
         },
     ),
     factory_commons__either_or_3=ScenarioConfig(
@@ -1906,7 +1906,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'factory_commons__either_or__unsustainable_0',
                         'factory_commons__either_or__unsustainable_1',
-                        'factory_commons__either_or__unsustainable_2',},
+                        'factory_commons__either_or__unsustainable_2', },
         },
     ),
     fruit_market__concentric_rivers_0=ScenarioConfig(
@@ -2124,7 +2124,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
             'default': {'paintball__capture_the_flag__shaped_bot_0',
                         'paintball__capture_the_flag__shaped_bot_1',
                         'paintball__capture_the_flag__shaped_bot_2',
-                        'paintball__capture_the_flag__shaped_bot_3',},
+                        'paintball__capture_the_flag__shaped_bot_3', },
         },
     ),
     paintball__capture_the_flag_1=ScenarioConfig(
@@ -2140,7 +2140,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
             'default': {'paintball__capture_the_flag__shaped_bot_0',
                         'paintball__capture_the_flag__shaped_bot_1',
                         'paintball__capture_the_flag__shaped_bot_2',
-                        'paintball__capture_the_flag__shaped_bot_3',},
+                        'paintball__capture_the_flag__shaped_bot_3', },
         },
     ),
     paintball__king_of_the_hill_0=ScenarioConfig(
@@ -2155,7 +2155,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'paintball__king_of_the_hill__free_0',
                         'paintball__king_of_the_hill__free_1',
-                        'paintball__king_of_the_hill__free_2',},
+                        'paintball__king_of_the_hill__free_2', },
         },
     ),
     paintball__king_of_the_hill_1=ScenarioConfig(
@@ -2171,7 +2171,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
             'default': {'paintball__king_of_the_hill__spawn_camper_0',
                         'paintball__king_of_the_hill__spawn_camper_1',
                         'paintball__king_of_the_hill__spawn_camper_2',
-                        'paintball__king_of_the_hill__spawn_camper_3',},
+                        'paintball__king_of_the_hill__spawn_camper_3', },
         },
     ),
     paintball__king_of_the_hill_2=ScenarioConfig(
@@ -2186,7 +2186,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {'paintball__king_of_the_hill__free_0',
                         'paintball__king_of_the_hill__free_1',
-                        'paintball__king_of_the_hill__free_2',},
+                        'paintball__king_of_the_hill__free_2', },
         },
     ),
     paintball__king_of_the_hill_3=ScenarioConfig(
@@ -2202,7 +2202,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
             'default': {'paintball__king_of_the_hill__spawn_camper_0',
                         'paintball__king_of_the_hill__spawn_camper_1',
                         'paintball__king_of_the_hill__spawn_camper_2',
-                        'paintball__king_of_the_hill__spawn_camper_3',},
+                        'paintball__king_of_the_hill__spawn_camper_3', },
         },
     ),
     predator_prey__alley_hunt_0=ScenarioConfig(
@@ -2216,7 +2216,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'predator': {'predator_prey__alley_hunt__predator_0',
                          'predator_prey__alley_hunt__predator_1',
-                         'predator_prey__alley_hunt__predator_2',},
+                         'predator_prey__alley_hunt__predator_2', },
         },
     ),
     predator_prey__alley_hunt_1=ScenarioConfig(
@@ -2231,7 +2231,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__alley_hunt__prey_0',
                      'predator_prey__alley_hunt__prey_1',
-                     'predator_prey__alley_hunt__prey_2',},
+                     'predator_prey__alley_hunt__prey_2', },
         },
     ),
     predator_prey__alley_hunt_2=ScenarioConfig(
@@ -2246,16 +2246,16 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__alley_hunt__prey_0',
                      'predator_prey__alley_hunt__prey_1',
-                     'predator_prey__alley_hunt__prey_2',},
+                     'predator_prey__alley_hunt__prey_2', },
             'predator': {'predator_prey__alley_hunt__predator_0',
                          'predator_prey__alley_hunt__predator_1',
-                         'predator_prey__alley_hunt__predator_2',},
+                         'predator_prey__alley_hunt__predator_2', },
         },
     ),
     predator_prey__alley_hunt_3=ScenarioConfig(
         description=(
-            'one focal prey ad hoc cooperates with background prey to avoid ' +
-            'predation'),
+                'one focal prey ad hoc cooperates with background prey to avoid ' +
+                'predation'),
         tags={
             'visitor',
         },
@@ -2265,10 +2265,10 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__alley_hunt__prey_0',
                      'predator_prey__alley_hunt__prey_1',
-                     'predator_prey__alley_hunt__prey_2',},
+                     'predator_prey__alley_hunt__prey_2', },
             'predator': {'predator_prey__alley_hunt__predator_0',
                          'predator_prey__alley_hunt__predator_1',
-                         'predator_prey__alley_hunt__predator_2',},
+                         'predator_prey__alley_hunt__predator_2', },
         },
     ),
     predator_prey__open_0=ScenarioConfig(
@@ -2281,7 +2281,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         is_focal=(False,) * 3 + (True,) * 10,
         bots_by_role={
             'predator': {'predator_prey__open__basic_predator_0',
-                         'predator_prey__open__basic_predator_1',},
+                         'predator_prey__open__basic_predator_1', },
         },
     ),
     predator_prey__open_1=ScenarioConfig(
@@ -2296,7 +2296,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__open__basic_prey_0',
                      'predator_prey__open__basic_prey_1',
-                     'predator_prey__open__basic_prey_2',},
+                     'predator_prey__open__basic_prey_2', },
         },
     ),
     predator_prey__open_2=ScenarioConfig(
@@ -2311,15 +2311,15 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__open__basic_prey_0',
                      'predator_prey__open__basic_prey_1',
-                     'predator_prey__open__basic_prey_2',},
+                     'predator_prey__open__basic_prey_2', },
             'predator': {'predator_prey__open__basic_predator_0',
-                         'predator_prey__open__basic_predator_1',},
+                         'predator_prey__open__basic_predator_1', },
         },
     ),
     predator_prey__open_3=ScenarioConfig(
         description=(
-            'one focal prey ad hoc cooperates with background prey to avoid ' +
-            'predation'),
+                'one focal prey ad hoc cooperates with background prey to avoid ' +
+                'predation'),
         tags={
             'visitor',
         },
@@ -2329,9 +2329,9 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__open__basic_prey_0',
                      'predator_prey__open__basic_prey_1',
-                     'predator_prey__open__basic_prey_2',},
+                     'predator_prey__open__basic_prey_2', },
             'predator': {'predator_prey__open__basic_predator_0',
-                         'predator_prey__open__basic_predator_1',},
+                         'predator_prey__open__basic_predator_1', },
         },
     ),
     predator_prey__open_4=ScenarioConfig(
@@ -2346,13 +2346,13 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__open__smart_prey_0',
                      'predator_prey__open__smart_prey_1',
-                     'predator_prey__open__smart_prey_2',},
+                     'predator_prey__open__smart_prey_2', },
         },
     ),
     predator_prey__open_5=ScenarioConfig(
         description=(
-            'a focal predator competes with background predators to hunt ' +
-            'smarter prey'),
+                'a focal predator competes with background predators to hunt ' +
+                'smarter prey'),
         tags={
             'visitor',
         },
@@ -2362,15 +2362,15 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__open__smart_prey_0',
                      'predator_prey__open__smart_prey_1',
-                     'predator_prey__open__smart_prey_2',},
+                     'predator_prey__open__smart_prey_2', },
             'predator': {'predator_prey__open__basic_predator_0',
-                         'predator_prey__open__basic_predator_1',},
+                         'predator_prey__open__basic_predator_1', },
         },
     ),
     predator_prey__open_6=ScenarioConfig(
         description=(
-            'one focal prey ad hoc cooperates with background smart prey to ' +
-            'avoid predation'),
+                'one focal prey ad hoc cooperates with background smart prey to ' +
+                'avoid predation'),
         tags={
             'visitor',
         },
@@ -2380,9 +2380,9 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__open__smart_prey_0',
                      'predator_prey__open__smart_prey_1',
-                     'predator_prey__open__smart_prey_2',},
+                     'predator_prey__open__smart_prey_2', },
             'predator': {'predator_prey__open__basic_predator_0',
-                         'predator_prey__open__basic_predator_1',},
+                         'predator_prey__open__basic_predator_1', },
         },
     ),
     predator_prey__orchard_0=ScenarioConfig(
@@ -2396,13 +2396,13 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'predator': {'predator_prey__orchard__basic_predator_0',
                          'predator_prey__orchard__basic_predator_1',
-                         'predator_prey__orchard__basic_predator_2',},
+                         'predator_prey__orchard__basic_predator_2', },
         },
     ),
     predator_prey__orchard_1=ScenarioConfig(
         description=(
-            'focal predators aim to eat resident population of ' +
-            'unspecialized prey'),
+                'focal predators aim to eat resident population of ' +
+                'unspecialized prey'),
         tags={
             'visitor',
         },
@@ -2415,13 +2415,13 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
                      'predator_prey__orchard__basic_prey_2',
                      'predator_prey__orchard__basic_prey_3',
                      'predator_prey__orchard__basic_prey_4',
-                     'predator_prey__orchard__basic_prey_5',},
+                     'predator_prey__orchard__basic_prey_5', },
         },
     ),
     predator_prey__orchard_2=ScenarioConfig(
         description=(
-            'a focal predator competes with background predators to eat ' +
-            'unspecialized prey'),
+                'a focal predator competes with background predators to eat ' +
+                'unspecialized prey'),
         tags={
             'visitor',
         },
@@ -2434,16 +2434,16 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
                      'predator_prey__orchard__basic_prey_2',
                      'predator_prey__orchard__basic_prey_3',
                      'predator_prey__orchard__basic_prey_4',
-                     'predator_prey__orchard__basic_prey_5',},
+                     'predator_prey__orchard__basic_prey_5', },
             'predator': {'predator_prey__orchard__basic_predator_0',
                          'predator_prey__orchard__basic_predator_1',
-                         'predator_prey__orchard__basic_predator_2',},
+                         'predator_prey__orchard__basic_predator_2', },
         },
     ),
     predator_prey__orchard_3=ScenarioConfig(
         description=(
-            'one focal prey ad hoc cooperates with unspecialized background ' +
-            'prey to avoid predation'),
+                'one focal prey ad hoc cooperates with unspecialized background ' +
+                'prey to avoid predation'),
         tags={
             'visitor',
         },
@@ -2456,16 +2456,16 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
                      'predator_prey__orchard__basic_prey_2',
                      'predator_prey__orchard__basic_prey_3',
                      'predator_prey__orchard__basic_prey_4',
-                     'predator_prey__orchard__basic_prey_5',},
+                     'predator_prey__orchard__basic_prey_5', },
             'predator': {'predator_prey__orchard__basic_predator_0',
                          'predator_prey__orchard__basic_predator_1',
-                         'predator_prey__orchard__basic_predator_2',},
+                         'predator_prey__orchard__basic_predator_2', },
         },
     ),
     predator_prey__orchard_4=ScenarioConfig(
         description=(
-            'focal predators aim to eat resident population of acorn ' +
-            'specialist prey'),
+                'focal predators aim to eat resident population of acorn ' +
+                'specialist prey'),
         tags={
             'visitor',
         },
@@ -2477,13 +2477,13 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
                      'predator_prey__orchard__acorn_specialist_prey_1',
                      'predator_prey__orchard__acorn_specialist_prey_2',
                      'predator_prey__orchard__acorn_specialist_prey_3',
-                     'predator_prey__orchard__acorn_specialist_prey_4',},
+                     'predator_prey__orchard__acorn_specialist_prey_4', },
         },
     ),
     predator_prey__orchard_5=ScenarioConfig(
         description=(
-            'a focal predator competes with background predators to eat ' +
-            'acorn specialist prey'),
+                'a focal predator competes with background predators to eat ' +
+                'acorn specialist prey'),
         tags={
             'visitor',
         },
@@ -2495,16 +2495,16 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
                      'predator_prey__orchard__acorn_specialist_prey_1',
                      'predator_prey__orchard__acorn_specialist_prey_2',
                      'predator_prey__orchard__acorn_specialist_prey_3',
-                     'predator_prey__orchard__acorn_specialist_prey_4',},
+                     'predator_prey__orchard__acorn_specialist_prey_4', },
             'predator': {'predator_prey__orchard__basic_predator_0',
                          'predator_prey__orchard__basic_predator_1',
-                         'predator_prey__orchard__basic_predator_2',},
+                         'predator_prey__orchard__basic_predator_2', },
         },
     ),
     predator_prey__orchard_6=ScenarioConfig(
         description=(
-            'one focal prey ad hoc cooperates with acorn specialized ' +
-            'background prey to avoid predation'),
+                'one focal prey ad hoc cooperates with acorn specialized ' +
+                'background prey to avoid predation'),
         tags={
             'visitor',
         },
@@ -2516,10 +2516,10 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
                      'predator_prey__orchard__acorn_specialist_prey_1',
                      'predator_prey__orchard__acorn_specialist_prey_2',
                      'predator_prey__orchard__acorn_specialist_prey_3',
-                     'predator_prey__orchard__acorn_specialist_prey_4',},
+                     'predator_prey__orchard__acorn_specialist_prey_4', },
             'predator': {'predator_prey__orchard__basic_predator_0',
                          'predator_prey__orchard__basic_predator_1',
-                         'predator_prey__orchard__basic_predator_2',},
+                         'predator_prey__orchard__basic_predator_2', },
         },
     ),
     predator_prey__random_forest_0=ScenarioConfig(
@@ -2533,7 +2533,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'predator': {'predator_prey__random_forest__basic_predator_0',
                          'predator_prey__random_forest__basic_predator_1',
-                         'predator_prey__random_forest__basic_predator_2',},
+                         'predator_prey__random_forest__basic_predator_2', },
         },
     ),
     predator_prey__random_forest_1=ScenarioConfig(
@@ -2548,7 +2548,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__random_forest__basic_prey_0',
                      'predator_prey__random_forest__basic_prey_1',
-                     'predator_prey__random_forest__basic_prey_2',},
+                     'predator_prey__random_forest__basic_prey_2', },
         },
     ),
     predator_prey__random_forest_2=ScenarioConfig(
@@ -2563,16 +2563,16 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__random_forest__basic_prey_0',
                      'predator_prey__random_forest__basic_prey_1',
-                     'predator_prey__random_forest__basic_prey_2',},
+                     'predator_prey__random_forest__basic_prey_2', },
             'predator': {'predator_prey__random_forest__basic_predator_0',
                          'predator_prey__random_forest__basic_predator_1',
-                         'predator_prey__random_forest__basic_predator_2',},
+                         'predator_prey__random_forest__basic_predator_2', },
         },
     ),
     predator_prey__random_forest_3=ScenarioConfig(
         description=(
-            'one focal prey ad hoc cooperates with background prey to avoid ' +
-            'predation'),
+                'one focal prey ad hoc cooperates with background prey to avoid ' +
+                'predation'),
         tags={
             'visitor',
         },
@@ -2582,10 +2582,10 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'prey': {'predator_prey__random_forest__basic_prey_0',
                      'predator_prey__random_forest__basic_prey_1',
-                     'predator_prey__random_forest__basic_prey_2',},
+                     'predator_prey__random_forest__basic_prey_2', },
             'predator': {'predator_prey__random_forest__basic_predator_0',
                          'predator_prey__random_forest__basic_predator_1',
-                         'predator_prey__random_forest__basic_predator_2',},
+                         'predator_prey__random_forest__basic_predator_2', },
         },
     ),
     prisoners_dilemma_in_the_matrix__arena_0=ScenarioConfig(
@@ -2677,9 +2677,9 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     prisoners_dilemma_in_the_matrix__arena_5=ScenarioConfig(
         description=(
-            'visiting a mixed population of k-strikes grim reciprocator bots ' +
-            'with k values from 1 to 3, they initially cooperate but, if ' +
-            'defected on k times, they retaliate in all future interactions'
+                'visiting a mixed population of k-strikes grim reciprocator bots ' +
+                'with k values from 1 to 3, they initially cooperate but, if ' +
+                'defected on k times, they retaliate in all future interactions'
         ),
         tags={
             'visitor',
@@ -2929,7 +2929,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     pure_coordination_in_the_matrix__arena_3=ScenarioConfig(
         description=('visiting a background population where all initially ' +
-                     'choose option A (without greed) and then switch '+
+                     'choose option A (without greed) and then switch ' +
                      'to either B or C after some time'),
         tags={
             'visitor',
@@ -2948,7 +2948,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     pure_coordination_in_the_matrix__arena_4=ScenarioConfig(
         description=('visiting a background population where all initially ' +
-                     'choose option B (without greed) and then switch '+
+                     'choose option B (without greed) and then switch ' +
                      'to either A or C after some time'),
         tags={
             'visitor',
@@ -2967,7 +2967,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     pure_coordination_in_the_matrix__arena_5=ScenarioConfig(
         description=('visiting a background population where all initially ' +
-                     'choose option C (without greed) and then switch '+
+                     'choose option C (without greed) and then switch ' +
                      'to either A or B after some time'),
         tags={
             'visitor',
@@ -3199,7 +3199,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     rationalizable_coordination_in_the_matrix__arena_3=ScenarioConfig(
         description=('visiting a background population where all initially ' +
-                     'choose option A (without greed) and then switch '+
+                     'choose option A (without greed) and then switch ' +
                      'to either B or C after some time'),
         tags={
             'visitor',
@@ -3218,7 +3218,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     rationalizable_coordination_in_the_matrix__arena_4=ScenarioConfig(
         description=('visiting a background population where all initially ' +
-                     'choose option B (without greed) and then switch '+
+                     'choose option B (without greed) and then switch ' +
                      'to either A or C after some time'),
         tags={
             'visitor',
@@ -3237,7 +3237,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     rationalizable_coordination_in_the_matrix__arena_5=ScenarioConfig(
         description=('visiting a background population where all initially ' +
-                     'choose option C (without greed) and then switch '+
+                     'choose option C (without greed) and then switch ' +
                      'to either A or B after some time'),
         tags={
             'visitor',
@@ -3881,10 +3881,10 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
     ),
     stag_hunt_in_the_matrix__arena_6=ScenarioConfig(
         description=(
-            'visiting a mixed population of k-strikes grim reciprocator bots ' +
-            'with k values from 1 to 3, they initially play stag but, if ' +
-            'their partners play hare k times, they then play hare in all ' +
-            'future interactions'
+                'visiting a mixed population of k-strikes grim reciprocator bots ' +
+                'with k values from 1 to 3, they initially play stag but, if ' +
+                'their partners play hare k times, they then play hare in all ' +
+                'future interactions'
         ),
         tags={
             'visitor',
@@ -4165,7 +4165,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {
                 'territory__inside_out__somewhat_tolerant_bot_0',
-                'territory__inside_out__somewhat_tolerant_bot_1',},
+                'territory__inside_out__somewhat_tolerant_bot_1', },
         },
     ),
     territory__inside_out_5=ScenarioConfig(
@@ -4181,7 +4181,7 @@ SCENARIO_CONFIGS: Mapping[str, ScenarioConfig] = immutabledict.immutabledict(
         bots_by_role={
             'default': {
                 'territory__inside_out__somewhat_tolerant_bot_0',
-                'territory__inside_out__somewhat_tolerant_bot_1',},
+                'territory__inside_out__somewhat_tolerant_bot_1', },
         },
     ),
     territory__open_0=ScenarioConfig(

@@ -81,25 +81,25 @@ CHAR_PREFAB_MAP = {
 
 
 def get_config():
-  """Default configuration."""
-  config = base_config.get_config()
-  # Specify a recommended number of players to particate in each episode.
-  config.recommended_num_players = 3
-  # Override the map layout settings.
-  config.layout = config_dict.ConfigDict()
-  config.layout.ascii_map = ASCII_MAP
-  config.layout.char_prefab_map = CHAR_PREFAB_MAP
+    """Default configuration."""
+    config = base_config.get_config()
+    # Specify a recommended number of players to particate in each episode.
+    config.recommended_num_players = 3
+    # Override the map layout settings.
+    config.layout = config_dict.ConfigDict()
+    config.layout.ascii_map = ASCII_MAP
+    config.layout.char_prefab_map = CHAR_PREFAB_MAP
 
-  # The roles assigned to each player.
-  config.valid_roles = frozenset({"default"})
-  config.default_player_roles = ("default",) * 3
+    # The roles assigned to each player.
+    config.valid_roles = frozenset({"default"})
+    config.default_player_roles = ("default",) * 3
 
-  # The specs of the environment (from a single-agent perspective).
-  config.timestep_spec = specs.timestep({
-      "RGB": specs.OBSERVATION["RGB"],
-      "READY_TO_SHOOT": specs.OBSERVATION["READY_TO_SHOOT"],
-      "STAMINA": specs.float64(),
-      # Debug only.
-      "WORLD.RGB": specs.rgb(128, 184),
-  })
-  return config
+    # The specs of the environment (from a single-agent perspective).
+    config.timestep_spec = specs.timestep({
+        "RGB": specs.OBSERVATION["RGB"],
+        "READY_TO_SHOOT": specs.OBSERVATION["READY_TO_SHOOT"],
+        "STAMINA": specs.float64(),
+        # Debug only.
+        "WORLD.RGB": specs.rgb(128, 184),
+    })
+    return config

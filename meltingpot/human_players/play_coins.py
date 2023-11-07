@@ -34,8 +34,8 @@ environment_configs = {
 
 
 def no_op() -> int:
-  """Gets direction pressed."""
-  return level_playing_utils.MOVEMENT_MAP['NONE']
+    """Gets direction pressed."""
+    return level_playing_utils.MOVEMENT_MAP['NONE']
 
 
 _ACTION_MAP = {
@@ -45,40 +45,40 @@ _ACTION_MAP = {
 
 
 def verbose_fn(env_timestep, player_index, current_player_index):
-  del env_timestep, player_index, current_player_index
-  pass
+    del env_timestep, player_index, current_player_index
+    pass
 
 
 def main():
-  parser = argparse.ArgumentParser(description=__doc__)
-  parser.add_argument(
-      '--level_name', type=str, default='coins',
-      choices=environment_configs.keys(),
-      help='Level name to load')
-  parser.add_argument(
-      '--observation', type=str, default='RGB', help='Observation to render')
-  parser.add_argument(
-      '--settings', type=json.loads, default={}, help='Settings as JSON string')
-  # Activate verbose mode with --verbose=True.
-  parser.add_argument(
-      '--verbose', type=bool, default=False, help='Print debug information')
-  # Activate events printing mode with --print_events=True.
-  parser.add_argument(
-      '--print_events', type=bool, default=False, help='Print events')
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        '--level_name', type=str, default='coins',
+        choices=environment_configs.keys(),
+        help='Level name to load')
+    parser.add_argument(
+        '--observation', type=str, default='RGB', help='Observation to render')
+    parser.add_argument(
+        '--settings', type=json.loads, default={}, help='Settings as JSON string')
+    # Activate verbose mode with --verbose=True.
+    parser.add_argument(
+        '--verbose', type=bool, default=False, help='Print debug information')
+    # Activate events printing mode with --print_events=True.
+    parser.add_argument(
+        '--print_events', type=bool, default=False, help='Print events')
 
-  args = parser.parse_args()
-  env_module = environment_configs[args.level_name]
-  env_config = env_module.get_config()
-  with config_dict.ConfigDict(env_config).unlocked() as env_config:
-    roles = env_config.default_player_roles
-    env_config.lab2d_settings = env_module.build(roles, env_config)
-  level_playing_utils.run_episode(
-      args.observation, args.settings, _ACTION_MAP, env_config,
-      level_playing_utils.RenderType.PYGAME, MAX_SCREEN_WIDTH,
-      MAX_SCREEN_HEIGHT, FRAMES_PER_SECOND,
-      verbose_fn if args.verbose else None,
-      print_events=args.print_events)
+    args = parser.parse_args()
+    env_module = environment_configs[args.level_name]
+    env_config = env_module.get_config()
+    with config_dict.ConfigDict(env_config).unlocked() as env_config:
+        roles = env_config.default_player_roles
+        env_config.lab2d_settings = env_module.build(roles, env_config)
+    level_playing_utils.run_episode(
+        args.observation, args.settings, _ACTION_MAP, env_config,
+        level_playing_utils.RenderType.PYGAME, MAX_SCREEN_WIDTH,
+        MAX_SCREEN_HEIGHT, FRAMES_PER_SECOND,
+        verbose_fn if args.verbose else None,
+        print_events=args.print_events)
 
 
 if __name__ == '__main__':
-  main()
+    main()

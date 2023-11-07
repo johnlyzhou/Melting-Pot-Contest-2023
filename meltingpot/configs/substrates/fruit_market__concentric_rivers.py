@@ -85,30 +85,30 @@ CHAR_PREFAB_MAP = {
 
 
 def get_config():
-  """Configuration for this substrate."""
-  config = base_config.get_config()
-  # Specify the number of players to particate in each episode (optional).
-  config.recommended_num_players = 16
-  # Override the map layout settings.
-  config.layout = configdict.ConfigDict()
-  config.layout.ascii_map = ASCII_MAP
-  config.layout.char_prefab_map = CHAR_PREFAB_MAP
+    """Configuration for this substrate."""
+    config = base_config.get_config()
+    # Specify the number of players to particate in each episode (optional).
+    config.recommended_num_players = 16
+    # Override the map layout settings.
+    config.layout = configdict.ConfigDict()
+    config.layout.ascii_map = ASCII_MAP
+    config.layout.char_prefab_map = CHAR_PREFAB_MAP
 
-  # The specs of the environment (from a single-agent perspective).
-  config.action_spec = specs.action(len(base_config.ACTION_SET))
-  config.timestep_spec = specs.timestep({
-      "RGB": specs.OBSERVATION["RGB"],
-      "READY_TO_SHOOT": specs.OBSERVATION["READY_TO_SHOOT"],
-      "STAMINA": specs.float64(),
-      "INVENTORY": specs.int64(2),
-      "MY_OFFER": specs.int64(2),
-      "OFFERS": specs.int64(102),
-      "HUNGER": specs.float64(),
-      # Debug only (do not use the following observations in policies).
-      "WORLD.RGB": specs.rgb(248, 248,),
-  })
+    # The specs of the environment (from a single-agent perspective).
+    config.action_spec = specs.action(len(base_config.ACTION_SET))
+    config.timestep_spec = specs.timestep({
+        "RGB": specs.OBSERVATION["RGB"],
+        "READY_TO_SHOOT": specs.OBSERVATION["READY_TO_SHOOT"],
+        "STAMINA": specs.float64(),
+        "INVENTORY": specs.int64(2),
+        "MY_OFFER": specs.int64(2),
+        "OFFERS": specs.int64(102),
+        "HUNGER": specs.float64(),
+        # Debug only (do not use the following observations in policies).
+        "WORLD.RGB": specs.rgb(248, 248, ),
+    })
 
-  # The roles assigned to each player.
-  config.valid_roles = frozenset({"apple_farmer", "banana_farmer"})
-  config.default_player_roles = ("apple_farmer",) * 8 + ("banana_farmer",) * 8
-  return config
+    # The roles assigned to each player.
+    config.valid_roles = frozenset({"apple_farmer", "banana_farmer"})
+    config.default_player_roles = ("apple_farmer",) * 8 + ("banana_farmer",) * 8
+    return config

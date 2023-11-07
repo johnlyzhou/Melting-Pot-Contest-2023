@@ -29,7 +29,6 @@ IGNORE_KEYS = ['WORLD.RGB', 'INTERACTION_INVENTORIES', 'NUM_OTHERS_WHO_CLEANED_T
 
 
 def get_experiment_config(args, default_config):
-    
     if args.exp == 'pd_arena':
         substrate_name = "prisoners_dilemma_in_the_matrix__arena"
     elif args.exp == 'al_harvest':
@@ -60,7 +59,6 @@ def get_experiment_config(args, default_config):
         "env_name": "meltingpot",
         "env_config": {"substrate": substrate_name, "roles": player_roles, "scaled": scale_factor},
 
-
         # training
         "seed": args.seed,
         "rollout_fragment_length": 10,
@@ -86,9 +84,9 @@ def get_experiment_config(args, default_config):
         # experiment trials
         "exp_name": args.exp,
         "stopping": {
-                    #"timesteps_total": 1000000,
-                    "training_iteration": 1,
-                    #"episode_reward_mean": 100,
+            # "timesteps_total": 1000000,
+            "training_iteration": 1,
+            # "episode_reward_mean": 100,
         },
         "num_checkpoints": 5,
         "checkpoint_interval": 10,
@@ -98,9 +96,8 @@ def get_experiment_config(args, default_config):
 
     }
 
-    
     # Preferrable to update the parameters in above dict before changing anything below
-    
+
     run_configs = default_config
     experiment_configs = {}
     tune_configs = None
@@ -108,7 +105,6 @@ def get_experiment_config(args, default_config):
     # Resources 
     run_configs.num_rollout_workers = params_dict['num_rollout_workers']
     run_configs.num_gpus = params_dict['num_gpus']
-
 
     # Training
     run_configs.train_batch_size = params_dict['train_batch_size']
@@ -141,17 +137,17 @@ def get_experiment_config(args, default_config):
             config={
                 "model": {
                     "conv_filters": [[16, [8, 8], 1],
-                                    [128, [sprite_x, sprite_y], 1]],
+                                     [128, [sprite_x, sprite_y], 1]],
                 },
             })
         player_to_agent[f"player_{i}"] = f"agent_{i}"
 
-    run_configs.multi_agent(policies=policies, policy_mapping_fn=(lambda agent_id, *args, **kwargs: 
+    run_configs.multi_agent(policies=policies, policy_mapping_fn=(lambda agent_id, *args, **kwargs:
                                                                   player_to_agent[agent_id]))
-    
+
     run_configs.model["fcnet_hiddens"] = params_dict['fcnet_hidden']
     run_configs.model["post_fcnet_hiddens"] = params_dict['post_fcnet_hidden']
-    run_configs.model["conv_activation"] = params_dict['cnn_activation'] 
+    run_configs.model["conv_activation"] = params_dict['cnn_activation']
     run_configs.model["fcnet_activation"] = params_dict['fcnet_activation']
     run_configs.model["post_fcnet_activation"] = params_dict['post_fcnet_activation']
     run_configs.model["use_lstm"] = params_dict['use_lstm']
@@ -169,5 +165,5 @@ def get_experiment_config(args, default_config):
         experiment_configs['dir'] = f"{params_dict['results_dir']}/tf"
     else:
         experiment_configs['dir'] = f"{params_dict['results_dir']}/torch"
- 
+
     return run_configs, experiment_configs, tune_configs

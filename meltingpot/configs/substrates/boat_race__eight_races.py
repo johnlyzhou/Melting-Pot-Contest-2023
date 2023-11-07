@@ -18,14 +18,14 @@ from ml_collections import config_dict as configdict
 
 
 def get_config() -> configdict.ConfigDict:
-  """Configuration for the boat_race substrate."""
-  config = base_config.get_config()
+    """Configuration for the boat_race substrate."""
+    config = base_config.get_config()
 
-  config.num_races = 8
+    config.num_races = 8
 
-  config.default_player_roles = ("default",) * base_config.MANDATED_NUM_PLAYERS
+    config.default_player_roles = ("default",) * base_config.MANDATED_NUM_PLAYERS
 
-  return config
+    return config
 
 
 build = base_config.build

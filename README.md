@@ -1,23 +1,25 @@
 # Melting Pot Contest @ Neurips 2023
+
 Official Repository for Melting Pot Contest Experiments
 
->**NOTE:** This repository provides a basic startup code for training RLLIB agents on Melting Pot.
-We plan to add additional support including more examples,
-benchmarked configs and GCP compute setup over the next couple of weeks. We will
-also make any necessary updates based on feedback from participants. Hence, it is recommended
-to sync up your fork every few days for next couple of weeks. We will post in discussion
-forums about any updates as they become available.
+> **NOTE:** This repository provides a basic startup code for training RLLIB agents on Melting Pot.
+> We plan to add additional support including more examples,
+> benchmarked configs and GCP compute setup over the next couple of weeks. We will
+> also make any necessary updates based on feedback from participants. Hence, it is recommended
+> to sync up your fork every few days for next couple of weeks. We will post in discussion
+> forums about any updates as they become available.
 
 # Table of Contents
+
 - [Substrates and Scenarios](#substrates-and-scenarios)
 - [Installation Guidelines](#installation-guidelines)
 - [Run Training](#run-training)
 - [Run Evaluation](#run-evaluation)
 - [Code Structure](#code-structure)
 - [How to Guide](#how-to-guide)
-  - [Make submission](#make-submission)
-  - [Visualization](#visualization)
-  - [Logging](#logging)
+    - [Make submission](#make-submission)
+    - [Visualization](#visualization)
+    - [Logging](#logging)
 - [Identified Issues with Ray 2.6.1](#identified-issues-with-ray-2.6.1)
 
 ## Substrates and Scenarios
@@ -25,36 +27,41 @@ forums about any updates as they become available.
 For this contest, we will focus on following 4 substrates and we list the corresponding
 validation scenarios that your submission will be evaluated on during development phase:
 
-| Substrate | Scenarios |
-| --------- | --------- |
-| allelopathic_harvest__open | allelopathic_harvest__open_0 |
-| | allelopathic_harvest__open_1 |
-| | allelopathic_harvest__open_2 |
-| clean_up | clean_up_2|
-| | clean_up_3 |
-| | clean_up_4 |
-| | clean_up_5 |
-| | clean_up_6 |
-| | clean_up_7 |
-| | clean_up_8 |
+| Substrate                              | Scenarios                                |
+|----------------------------------------|------------------------------------------|
+| allelopathic_harvest__open             | allelopathic_harvest__open_0             |
+|                                        | allelopathic_harvest__open_1             |
+|                                        | allelopathic_harvest__open_2             |
+| clean_up                               | clean_up_2                               |
+|                                        | clean_up_3                               |
+|                                        | clean_up_4                               |
+|                                        | clean_up_5                               |
+|                                        | clean_up_6                               |
+|                                        | clean_up_7                               |
+|                                        | clean_up_8                               |
 | prisoners_dilemma_in_the_matrix__arena | prisoners_dilemma_in_the_matrix__arena_0 |
-| | prisoners_dilemma_in_the_matrix__arena_1 |
-| | prisoners_dilemma_in_the_matrix__arena_2 |
-| | prisoners_dilemma_in_the_matrix__arena_3 |
-| | prisoners_dilemma_in_the_matrix__arena_4 |
-| | prisoners_dilemma_in_the_matrix__arena_5 |
-| territory__rooms | territory__rooms_0 |
-| | territory__rooms_1 |
-| | territory__rooms_2 |
-| | territory__rooms_3 |
+|                                        | prisoners_dilemma_in_the_matrix__arena_1 |
+|                                        | prisoners_dilemma_in_the_matrix__arena_2 |
+|                                        | prisoners_dilemma_in_the_matrix__arena_3 |
+|                                        | prisoners_dilemma_in_the_matrix__arena_4 |
+|                                        | prisoners_dilemma_in_the_matrix__arena_5 |
+| territory__rooms                       | territory__rooms_0                       |
+|                                        | territory__rooms_1                       |
+|                                        | territory__rooms_2                       |
+|                                        | territory__rooms_3                       |
 
 ## Installation Guidelines
 
 ### MacOS Ventura 13.2.1 and Ubuntu 20.04 LTS
 
-The baseline codes and accompanying MeltingPot installation has been tested on MacOS with support for x86_64 platform. If you use newer M1 chips, there may be additional steps required. You are welcome to post in discussion forums if you encounter any issues with installation.
+The baseline codes and accompanying MeltingPot installation has been tested on MacOS with support for x86_64 platform.
+If you use newer M1 chips, there may be additional steps required. You are welcome to post in discussion forums if you
+encounter any issues with installation.
 
-It is recommended to use virtual environments as the setup requires specific versions for some libraries. Below, we provide installation with [Conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) package manager.
+It is recommended to use virtual environments as the setup requires specific versions for some libraries. Below, we
+provide installation
+with [Conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) package
+manager.
 
 ```
 git clone <this-repo>
@@ -70,12 +77,12 @@ sh ray_patch.sh
 
 Coming Soon!
 
-
 ## Run Training
 
 ```
 python baselines/train/run_ray_train.py [OPTIONS]
 ```
+
 ```
 OPTIONS:
   -h, --help            show this help message and exit
@@ -102,13 +109,14 @@ OPTIONS:
 ```
 
 > For torch backend, you may need to prepend the above command with CUDA_VISIBLE_DEVICE=[DEVICE IDs]
-if your algorithm does not seem to find GPU when enabled.
+> if your algorithm does not seem to find GPU when enabled.
 
 ## Run Evaluation
 
 ```
 python baselines/evaluation/evaluate.py [OPTIONS]
 ```
+
 ```
 OPTIONS:
   -h, --help            show this help message and exit
@@ -126,6 +134,7 @@ OPTIONS:
   --video_dir VIDEO_DIR
                         Directory where you want to store evaluation videos
 ```
+
 ## Code Structure
 
 ```
@@ -144,20 +153,23 @@ OPTIONS:
 
 ## How to Guide
 
-
 ### Make Submission
 ---
 The trained models will be available in the results folder configured by you.
-Please refer to the guidelines on AICrowd [submision-starter-kit](https://gitlab.aicrowd.com/aicrowd/challenges/meltingpot-2023/meltingpot-2023-starter-kit) to make a
+Please refer to the guidelines on
+AICrowd [submision-starter-kit](https://gitlab.aicrowd.com/aicrowd/challenges/meltingpot-2023/meltingpot-2023-starter-kit)
+to make a
 submission using the trained checkpoints.
 
 ### Visualization
 ---
+
 #### How to render trained models?
 
 ```
 python baselines/train/render_models.py [OPTIONS]
 ```
+
 ```
 OPTIONS:
   -h, --help            show this help message and exit
@@ -178,11 +190,16 @@ If `eval_on_scenario=False`, this will create video plays of evaluation on subst
 python baselines/evaluation/evaluate.py --create_videos=True --video_dir='' [OPTIONS]
 ```
 
-**Note:** The script for generating these videos is located in `VideoSubject` class in `meltingpot/utils/evaluation/evaluation.py`. Modify this class to play with video properties such as codec, fps etc. or use different video writer. If you do not use meltingpot code from this repo, we have found that the generated videos are rendered very tiny. To fix that, add `rgb_frame = rgb_frame.repeat(scale, axis=0).repeat(scale, axis=1)` after `line 88` to extrapolate the image, where we used `scale=32`.   
+**Note:** The script for generating these videos is located in `VideoSubject` class
+in `meltingpot/utils/evaluation/evaluation.py`. Modify this class to play with video properties such as codec, fps etc.
+or use different video writer. If you do not use meltingpot code from this repo, we have found that the generated videos
+are rendered very tiny. To fix that, add `rgb_frame = rgb_frame.repeat(scale, axis=0).repeat(scale, axis=1)`
+after `line 88` to extrapolate the image, where we used `scale=32`.
 
 ### Logging
 ---
-You can use either Wandb or Tensorboard to log and visualize your training landscape. The install setup provided includes support for both of them.
+You can use either Wandb or Tensorboard to log and visualize your training landscape. The install setup provided
+includes support for both of them.
 
 #### WanDB Logging
 
@@ -196,14 +213,16 @@ To setup Wandb:
 
 To visualize your results with TensorBoard, run: `tensorboard --logdir <results_dir>`
 
-
 ## Identified issues with Ray 2.6.1
 
-During our training, we found issues with both tf and torch backends that leads to errors when using default lstm wrapper provided by rllib. Our installation script above provides fix patches `ray_patch.sh` for the same. But if you use the manual installation approach, the following fixes need to be applied after installation:
+During our training, we found issues with both tf and torch backends that leads to errors when using default lstm
+wrapper provided by rllib. Our installation script above provides fix patches `ray_patch.sh` for the same. But if you
+use the manual installation approach, the following fixes need to be applied after installation:
 
-*  For tf users:
+* For tf users:
 
-In your Python library folder, in the file ray/rllib/policy/sample_batch.py, replace line 636 with the following snippet:
+In your Python library folder, in the file ray/rllib/policy/sample_batch.py, replace line 636 with the following
+snippet:
 
 ```python
 time_lengths = tree.map_structure(lambda x: len(x), data[next(iter(data))])

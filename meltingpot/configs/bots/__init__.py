@@ -31,8 +31,8 @@ from meltingpot.utils.puppeteers import running_with_scissors_in_the_matrix
 
 
 def _find_models_root() -> str:
-  import re  # pylint: disable=g-import-not-at-top
-  return re.sub('^(.*)/meltingpot/.*?$', r'\1/meltingpot/assets/saved_models/', __file__)
+    import re  # pylint: disable=g-import-not-at-top
+    return re.sub('^(.*)/meltingpot/.*?$', r'\1/meltingpot/assets/saved_models/', __file__)
 
 
 MODELS_ROOT = _find_models_root()
@@ -330,12 +330,14 @@ _RESOURCES = immutabledict.immutabledict(
         'YELLOW': in_the_matrix.Resource(
             index=0,
             collect_goal=_PUPPET_GOALS['rationalizable_coordination_in_the_matrix__repeated']['COLLECT_YELLOW'],
-            interact_goal=_PUPPET_GOALS['rationalizable_coordination_in_the_matrix__repeated']['INTERACT_PLAYING_YELLOW'],
+            interact_goal=_PUPPET_GOALS['rationalizable_coordination_in_the_matrix__repeated'][
+                'INTERACT_PLAYING_YELLOW'],
         ),
         'VIOLET': in_the_matrix.Resource(
             index=1,
             collect_goal=_PUPPET_GOALS['rationalizable_coordination_in_the_matrix__repeated']['COLLECT_VIOLET'],
-            interact_goal=_PUPPET_GOALS['rationalizable_coordination_in_the_matrix__repeated']['INTERACT_PLAYING_VIOLET'],
+            interact_goal=_PUPPET_GOALS['rationalizable_coordination_in_the_matrix__repeated'][
+                'INTERACT_PLAYING_VIOLET'],
         ),
         'CYAN': in_the_matrix.Resource(
             index=2,
@@ -424,22 +426,22 @@ _RESOURCES = immutabledict.immutabledict(
 
 @dataclasses.dataclass(frozen=True)
 class BotConfig:
-  """Bot config.
+    """Bot config.
 
-  Attributes:
-    substrate: the substrate the bot was trained for.
-    roles: the roles the bot was trained for.
-    model_path: the path to the bot's saved model.
-    model_version: whether the bot is a "1.0" bot or a new "1.1" bot.
-    puppeteer_builder: returns the puppeteer used to control the bot.
-  """
-  substrate: str
-  roles: AbstractSet[str]
-  model_path: str
-  puppeteer_builder: Optional[Callable[[], puppeteer.Puppeteer]]
+    Attributes:
+      substrate: the substrate the bot was trained for.
+      roles: the roles the bot was trained for.
+      model_path: the path to the bot's saved model.
+      model_version: whether the bot is a "1.0" bot or a new "1.1" bot.
+      puppeteer_builder: returns the puppeteer used to control the bot.
+    """
+    substrate: str
+    roles: AbstractSet[str]
+    model_path: str
+    puppeteer_builder: Optional[Callable[[], puppeteer.Puppeteer]]
 
-  def __post_init__(self):
-    object.__setattr__(self, 'roles', frozenset(self.roles))
+    def __post_init__(self):
+        object.__setattr__(self, 'roles', frozenset(self.roles))
 
 
 def saved_model(*,
@@ -447,20 +449,20 @@ def saved_model(*,
                 roles: Iterable[str] = ('default',),
                 model: str,
                 models_root: str = MODELS_ROOT) -> BotConfig:
-  """Returns the config for a saved model bot.
+    """Returns the config for a saved model bot.
 
-  Args:
-    substrate: the substrate on which the bot was trained.
-    roles: the roles the bot was trained for.
-    model: the name of the model.
-    models_root: The path to the directory containing the saved_models.
-  """
-  model_path = os.path.join(models_root, substrate, model)
-  return BotConfig(
-      substrate=substrate,
-      roles=frozenset(roles),
-      model_path=model_path,
-      puppeteer_builder=None)
+    Args:
+      substrate: the substrate on which the bot was trained.
+      roles: the roles the bot was trained for.
+      model: the name of the model.
+      models_root: The path to the directory containing the saved_models.
+    """
+    model_path = os.path.join(models_root, substrate, model)
+    return BotConfig(
+        substrate=substrate,
+        roles=frozenset(roles),
+        model_path=model_path,
+        puppeteer_builder=None)
 
 
 def puppet(*,
@@ -469,21 +471,21 @@ def puppet(*,
            model: str,
            puppeteer_builder: Callable[[], puppeteer.Puppeteer],
            models_root: str = MODELS_ROOT) -> BotConfig:
-  """Returns the config for a puppet bot.
+    """Returns the config for a puppet bot.
 
-  Args:
-    substrate: the substrate on which the bot was trained.
-    roles: the roles the bot was trained for.
-    model: the name of the model.
-    puppeteer_builder: returns the puppeteer used to control the bot.
-    models_root: the path to the directory containing the saved_models.
-  """
-  puppet_path = os.path.join(models_root, substrate, model)
-  return BotConfig(
-      substrate=substrate,
-      roles=frozenset(roles),
-      model_path=puppet_path,
-      puppeteer_builder=puppeteer_builder)
+    Args:
+      substrate: the substrate on which the bot was trained.
+      roles: the roles the bot was trained for.
+      model: the name of the model.
+      puppeteer_builder: returns the puppeteer used to control the bot.
+      models_root: the path to the directory containing the saved_models.
+    """
+    puppet_path = os.path.join(models_root, substrate, model)
+    return BotConfig(
+        substrate=substrate,
+        roles=frozenset(roles),
+        model_path=puppet_path,
+        puppeteer_builder=puppeteer_builder)
 
 
 BOT_CONFIGS: Mapping[str, BotConfig] = immutabledict.immutabledict(
@@ -1415,7 +1417,7 @@ BOT_CONFIGS: Mapping[str, BotConfig] = immutabledict.immutabledict(
         roles=('default',),
         puppeteer_builder=functools.partial(
             fixed_goal.FixedGoal, (_PUPPET_GOALS['externality_mushrooms__dense']
-                                   ['COLLECT_MUSHROOM_FIZE'])),
+            ['COLLECT_MUSHROOM_FIZE'])),
     ),
     externality_mushrooms__dense__puppet_hihe_0=puppet(
         substrate='externality_mushrooms__dense',
@@ -1423,7 +1425,7 @@ BOT_CONFIGS: Mapping[str, BotConfig] = immutabledict.immutabledict(
         roles=('default',),
         puppeteer_builder=functools.partial(
             fixed_goal.FixedGoal, (_PUPPET_GOALS['externality_mushrooms__dense']
-                                   ['COLLECT_MUSHROOM_HIHE'])),
+            ['COLLECT_MUSHROOM_HIHE'])),
     ),
     factory_commons__either_or__sustainable_0=saved_model(
         substrate='factory_commons__either_or',
@@ -1503,7 +1505,7 @@ BOT_CONFIGS: Mapping[str, BotConfig] = immutabledict.immutabledict(
         puppeteer_builder=functools.partial(
             fixed_goal.FixedGoal,
             goal=_PUPPET_GOALS['gift_refinements']['FORAGE'],
-            ),
+        ),
     ),
     gift_refinements__extreme_cooperator_0=puppet(
         substrate='gift_refinements',
@@ -1885,7 +1887,7 @@ BOT_CONFIGS: Mapping[str, BotConfig] = immutabledict.immutabledict(
             defect_resource=_RESOURCES['prisoners_dilemma_in_the_matrix__repeated']['DEFECT'],
             threshold=3,
             margin=5,
-                        tremble_probability=0,
+            tremble_probability=0,
         ),
     ),
     prisoners_dilemma_in_the_matrix__repeated__puppet_corrigible_tremble_0=puppet(

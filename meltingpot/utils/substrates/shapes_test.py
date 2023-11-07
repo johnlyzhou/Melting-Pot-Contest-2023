@@ -20,8 +20,8 @@ from meltingpot.utils.substrates import shapes
 
 class ShapesTest(parameterized.TestCase):
 
-  @parameterized.parameters([
-      ["""
+    @parameterized.parameters([
+        ["""
 a
 b
 c
@@ -40,13 +40,13 @@ ghi
 def
 abc
 """],
-  ])
-  def test_flip_vertical(self, original, expected):
-    actual = shapes.flip_vertical(original)
-    self.assertEqual(actual, expected)
+    ])
+    def test_flip_vertical(self, original, expected):
+        actual = shapes.flip_vertical(original)
+        self.assertEqual(actual, expected)
 
-  @parameterized.parameters([
-      ["""
+    @parameterized.parameters([
+        ["""
 a
 b
 c
@@ -65,11 +65,11 @@ cba
 fed
 ihg
 """],
-  ])
-  def test_flip_horizontal(self, original, expected):
-    actual = shapes.flip_horizontal(original)
-    self.assertEqual(actual, expected)
+    ])
+    def test_flip_horizontal(self, original, expected):
+        actual = shapes.flip_horizontal(original)
+        self.assertEqual(actual, expected)
 
 
 if __name__ == '__main__':
-  absltest.main()
+    absltest.main()

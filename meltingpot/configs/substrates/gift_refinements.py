@@ -135,7 +135,6 @@ SCENE = {
     ]
 }
 
-
 WALL = {
     "name": "wall",
     "components": [
@@ -157,7 +156,7 @@ WALL = {
             "component": "Appearance",
             "kwargs": {
                 "renderMode": "ascii_shape",
-                "spriteNames": ["Wall",],
+                "spriteNames": ["Wall", ],
                 "spriteShapes": [shapes.WALL],
                 "palettes": [{"*": (95, 95, 95, 255),
                               "&": (100, 100, 100, 255),
@@ -246,153 +245,152 @@ TOKEN = {
     ]
 }
 
-
 PLAYER_COLOR_PALETTES = []
 for human_readable_color in colors.human_readable:
-  PLAYER_COLOR_PALETTES.append(shapes.get_palette(human_readable_color))
+    PLAYER_COLOR_PALETTES.append(shapes.get_palette(human_readable_color))
 
 
 def get_avatar_object(num_players: int, player_index: int):
-  """Construct an avatar object."""
-  # Lua is 1-indexed.
-  lua_index = player_index + 1
-  color_palette = PLAYER_COLOR_PALETTES[player_index]
-  avatar_sprite_name = "avatarSprite{}".format(lua_index)
-  avatar_object = {
-      "name": "avatar",
-      "components": [
-          {
-              "component": "StateManager",
-              "kwargs": {
-                  "initialState": "player",
-                  "stateConfigs": [
-                      {
-                          "state": "player",
-                          "layer": "upperPhysical",
-                          "sprite": avatar_sprite_name,
-                          "contact": "avatar",
-                          "groups": ["players"]
-                      },
-                      {
-                          "state": "playerWait",
-                          "groups": ["playerWaits"]
-                      },
-                  ]
-              }
-          },
-          {
-              "component": "Transform",
-          },
-          {
-              "component": "Appearance",
-              "kwargs": {
-                  "renderMode": "ascii_shape",
-                  "spriteNames": [avatar_sprite_name],
-                  "spriteShapes": [shapes.CUTE_AVATAR],
-                  "palettes": [color_palette],
-                  "noRotates": [True],
-              }
-          },
-          {
-              "component": "Avatar",
-              "kwargs": {
-                  "index": lua_index,
-                  "aliveState": "player",
-                  "waitState": "playerWait",
-                  "spawnGroup": "spawnPoints",
-                  "actionOrder": [
-                      "move", "turn", "refineAndGift", "consumeTokens"
-                  ],
-                  "actionSpec": {
-                      "move": {
-                          "default": 0,
-                          "min": 0,
-                          "max": len(_COMPASS)
-                      },
-                      "turn": {
-                          "default": 0,
-                          "min": -1,
-                          "max": 1
-                      },
-                      "refineAndGift": {
-                          "default": 0,
-                          "min": 0,
-                          "max": 1
-                      },
-                      "consumeTokens": {
-                          "default": 0,
-                          "min": 0,
-                          "max": 1
-                      },
-                  },
-                  "view": {
-                      "left": 5,
-                      "right": 5,
-                      "forward": 9,
-                      "backward": 1,
-                      "centered": False
-                  }
-              }
-          },
-          {
-              "component": "Inventory",
-              "kwargs": {
-                  "capacityPerType": MAX_TOKENS_PER_TYPE,
-                  "numTokenTypes": NUM_TOKEN_TYPES,
-              }
-          },
-          {
-              "component": "GiftBeam",
-              "kwargs": {
-                  "cooldownTime": 3,
-                  "beamLength": 5,
-                  "beamRadius": 0,
-                  "agentRole": "none",
-                  "giftMultiplier": 5,
-                  "successfulGiftReward": 10,
-                  "roleRewardForGifting": {
-                      "none": 0.0,
-                      "gifter": 0.2,
-                      "selfish": -2.0
-                  },
-              }
-          },
-          {
-              "component": "ReadyToShootObservation",
-              "kwargs": {
-                  "zapperComponent": "GiftBeam",
-              },
-          },
-          {
-              "component": "AvatarMetricReporter",
-              "kwargs": {
-                  "metrics": [
-                      {
-                          "name": "INVENTORY",
-                          "type": "tensor.DoubleTensor",
-                          "shape": [NUM_TOKEN_TYPES],
-                          "component": "Inventory",
-                          "variable": "inventory"
-                      },
-                  ]
-              }
-          },
-          {
-              "component": "TokenTracker",
-              "kwargs": {
-                  "numPlayers": num_players,
-                  "numTokenTypes": NUM_TOKEN_TYPES,
-              }
-          },
-      ]
-  }
-  if _ENABLE_DEBUG_OBSERVATIONS:
-    avatar_object["components"].append({
-        "component": "LocationObserver",
-        "kwargs": {"objectIsAvatar": True, "alsoReportOrientation": True},
-    })
+    """Construct an avatar object."""
+    # Lua is 1-indexed.
+    lua_index = player_index + 1
+    color_palette = PLAYER_COLOR_PALETTES[player_index]
+    avatar_sprite_name = "avatarSprite{}".format(lua_index)
+    avatar_object = {
+        "name": "avatar",
+        "components": [
+            {
+                "component": "StateManager",
+                "kwargs": {
+                    "initialState": "player",
+                    "stateConfigs": [
+                        {
+                            "state": "player",
+                            "layer": "upperPhysical",
+                            "sprite": avatar_sprite_name,
+                            "contact": "avatar",
+                            "groups": ["players"]
+                        },
+                        {
+                            "state": "playerWait",
+                            "groups": ["playerWaits"]
+                        },
+                    ]
+                }
+            },
+            {
+                "component": "Transform",
+            },
+            {
+                "component": "Appearance",
+                "kwargs": {
+                    "renderMode": "ascii_shape",
+                    "spriteNames": [avatar_sprite_name],
+                    "spriteShapes": [shapes.CUTE_AVATAR],
+                    "palettes": [color_palette],
+                    "noRotates": [True],
+                }
+            },
+            {
+                "component": "Avatar",
+                "kwargs": {
+                    "index": lua_index,
+                    "aliveState": "player",
+                    "waitState": "playerWait",
+                    "spawnGroup": "spawnPoints",
+                    "actionOrder": [
+                        "move", "turn", "refineAndGift", "consumeTokens"
+                    ],
+                    "actionSpec": {
+                        "move": {
+                            "default": 0,
+                            "min": 0,
+                            "max": len(_COMPASS)
+                        },
+                        "turn": {
+                            "default": 0,
+                            "min": -1,
+                            "max": 1
+                        },
+                        "refineAndGift": {
+                            "default": 0,
+                            "min": 0,
+                            "max": 1
+                        },
+                        "consumeTokens": {
+                            "default": 0,
+                            "min": 0,
+                            "max": 1
+                        },
+                    },
+                    "view": {
+                        "left": 5,
+                        "right": 5,
+                        "forward": 9,
+                        "backward": 1,
+                        "centered": False
+                    }
+                }
+            },
+            {
+                "component": "Inventory",
+                "kwargs": {
+                    "capacityPerType": MAX_TOKENS_PER_TYPE,
+                    "numTokenTypes": NUM_TOKEN_TYPES,
+                }
+            },
+            {
+                "component": "GiftBeam",
+                "kwargs": {
+                    "cooldownTime": 3,
+                    "beamLength": 5,
+                    "beamRadius": 0,
+                    "agentRole": "none",
+                    "giftMultiplier": 5,
+                    "successfulGiftReward": 10,
+                    "roleRewardForGifting": {
+                        "none": 0.0,
+                        "gifter": 0.2,
+                        "selfish": -2.0
+                    },
+                }
+            },
+            {
+                "component": "ReadyToShootObservation",
+                "kwargs": {
+                    "zapperComponent": "GiftBeam",
+                },
+            },
+            {
+                "component": "AvatarMetricReporter",
+                "kwargs": {
+                    "metrics": [
+                        {
+                            "name": "INVENTORY",
+                            "type": "tensor.DoubleTensor",
+                            "shape": [NUM_TOKEN_TYPES],
+                            "component": "Inventory",
+                            "variable": "inventory"
+                        },
+                    ]
+                }
+            },
+            {
+                "component": "TokenTracker",
+                "kwargs": {
+                    "numPlayers": num_players,
+                    "numTokenTypes": NUM_TOKEN_TYPES,
+                }
+            },
+        ]
+    }
+    if _ENABLE_DEBUG_OBSERVATIONS:
+        avatar_object["components"].append({
+            "component": "LocationObserver",
+            "kwargs": {"objectIsAvatar": True, "alsoReportOrientation": True},
+        })
 
-  return avatar_object
+    return avatar_object
 
 
 # PREFABS is a dictionary mapping names to template game objects that can
@@ -405,30 +403,30 @@ PREFABS = {
 
 
 def get_avatar_objects(num_players: int):
-  return [get_avatar_object(num_players, i) for i in range(num_players)]
+    return [get_avatar_object(num_players, i) for i in range(num_players)]
 
 
 # Primitive action components.
 # pylint: disable=bad-whitespace
 # pyformat: disable
-NOOP            = {
-    "move": 0, "turn":  0, "refineAndGift": 0, "consumeTokens": 0}
-FORWARD         = {
-    "move": 1, "turn":  0, "refineAndGift": 0, "consumeTokens": 0}
-STEP_RIGHT      = {
-    "move": 2, "turn":  0, "refineAndGift": 0, "consumeTokens": 0}
-BACKWARD        = {
-    "move": 3, "turn":  0, "refineAndGift": 0, "consumeTokens": 0}
-STEP_LEFT       = {
-    "move": 4, "turn":  0, "refineAndGift": 0, "consumeTokens": 0}
-TURN_LEFT       = {
+NOOP = {
+    "move": 0, "turn": 0, "refineAndGift": 0, "consumeTokens": 0}
+FORWARD = {
+    "move": 1, "turn": 0, "refineAndGift": 0, "consumeTokens": 0}
+STEP_RIGHT = {
+    "move": 2, "turn": 0, "refineAndGift": 0, "consumeTokens": 0}
+BACKWARD = {
+    "move": 3, "turn": 0, "refineAndGift": 0, "consumeTokens": 0}
+STEP_LEFT = {
+    "move": 4, "turn": 0, "refineAndGift": 0, "consumeTokens": 0}
+TURN_LEFT = {
     "move": 0, "turn": -1, "refineAndGift": 0, "consumeTokens": 0}
-TURN_RIGHT      = {
-    "move": 0, "turn":  1, "refineAndGift": 0, "consumeTokens": 0}
+TURN_RIGHT = {
+    "move": 0, "turn": 1, "refineAndGift": 0, "consumeTokens": 0}
 REFINE_AND_GIFT = {
-    "move": 0, "turn":  0, "refineAndGift": 1, "consumeTokens": 0}
-CONSUME_TOKENS  = {
-    "move": 0, "turn":  0, "refineAndGift": 0, "consumeTokens": 1}
+    "move": 0, "turn": 0, "refineAndGift": 1, "consumeTokens": 0}
+CONSUME_TOKENS = {
+    "move": 0, "turn": 0, "refineAndGift": 0, "consumeTokens": 1}
 # pyformat: enable
 # pylint: enable=bad-whitespace
 
@@ -446,60 +444,60 @@ ACTION_SET = (
 
 
 def get_config():
-  """Default configuration for the gift_refinements level."""
-  config = config_dict.ConfigDict()
+    """Default configuration for the gift_refinements level."""
+    config = config_dict.ConfigDict()
 
-  # Action set configuration.
-  config.action_set = ACTION_SET
-  # Observation format configuration.
-  config.individual_observation_names = [
-      "RGB",
-      "READY_TO_SHOOT",
-      "INVENTORY",
-  ]
-  config.global_observation_names = [
-      "WORLD.RGB",
-  ]
+    # Action set configuration.
+    config.action_set = ACTION_SET
+    # Observation format configuration.
+    config.individual_observation_names = [
+        "RGB",
+        "READY_TO_SHOOT",
+        "INVENTORY",
+    ]
+    config.global_observation_names = [
+        "WORLD.RGB",
+    ]
 
-  # The specs of the environment (from a single-agent perspective).
-  config.action_spec = specs.action(len(ACTION_SET))
-  config.timestep_spec = specs.timestep({
-      "RGB": specs.OBSERVATION["RGB"],
-      "READY_TO_SHOOT": specs.OBSERVATION["READY_TO_SHOOT"],
-      "INVENTORY": specs.inventory(3),
-      # Debug only (do not use the following observations in policies).
-      "WORLD.RGB": specs.rgb(216, 216),
-  })
+    # The specs of the environment (from a single-agent perspective).
+    config.action_spec = specs.action(len(ACTION_SET))
+    config.timestep_spec = specs.timestep({
+        "RGB": specs.OBSERVATION["RGB"],
+        "READY_TO_SHOOT": specs.OBSERVATION["READY_TO_SHOOT"],
+        "INVENTORY": specs.inventory(3),
+        # Debug only (do not use the following observations in policies).
+        "WORLD.RGB": specs.rgb(216, 216),
+    })
 
-  # The roles assigned to each player.
-  config.valid_roles = frozenset({"default", "target"})
-  config.default_player_roles = ("default",) * 6
+    # The roles assigned to each player.
+    config.valid_roles = frozenset({"default", "target"})
+    config.default_player_roles = ("default",) * 6
 
-  return config
+    return config
 
 
 def build(
-    roles: Sequence[str],
-    config: config_dict.ConfigDict,
+        roles: Sequence[str],
+        config: config_dict.ConfigDict,
 ) -> Mapping[str, Any]:
-  """Build substrate given player roles."""
-  del config
-  num_players = len(roles)
-  # Build the rest of the substrate definition.
-  substrate_definition = dict(
-      levelName="gift_refinements",
-      levelDirectory="meltingpot/lua/levels",
-      numPlayers=num_players,
-      # Define upper bound of episode length since episodes end stochastically.
-      maxEpisodeLengthFrames=5000,
-      spriteSize=8,
-      topology="BOUNDED",  # Choose from ["BOUNDED", "TORUS"],
-      simulation={
-          "map": ASCII_MAP,
-          "gameObjects": get_avatar_objects(num_players),
-          "scene": SCENE,
-          "prefabs": PREFABS,
-          "charPrefabMap": CHAR_PREFAB_MAP,
-      },
-  )
-  return substrate_definition
+    """Build substrate given player roles."""
+    del config
+    num_players = len(roles)
+    # Build the rest of the substrate definition.
+    substrate_definition = dict(
+        levelName="gift_refinements",
+        levelDirectory="meltingpot/lua/levels",
+        numPlayers=num_players,
+        # Define upper bound of episode length since episodes end stochastically.
+        maxEpisodeLengthFrames=5000,
+        spriteSize=8,
+        topology="BOUNDED",  # Choose from ["BOUNDED", "TORUS"],
+        simulation={
+            "map": ASCII_MAP,
+            "gameObjects": get_avatar_objects(num_players),
+            "scene": SCENE,
+            "prefabs": PREFABS,
+            "charPrefabMap": CHAR_PREFAB_MAP,
+        },
+    )
+    return substrate_definition

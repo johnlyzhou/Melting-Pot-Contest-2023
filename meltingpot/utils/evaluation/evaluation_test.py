@@ -23,22 +23,22 @@ import numpy as np
 
 
 def _as_timesteps(frames):
-  first, *mids, last = frames
-  yield dm_env.restart(observation=[{'WORLD.RGB': first}])
-  for frame in mids:
-    yield dm_env.transition(observation=[{'WORLD.RGB': frame}], reward=0)
-  yield dm_env.termination(observation=[{'WORLD.RGB': last}], reward=0)
+    first, *mids, last = frames
+    yield dm_env.restart(observation=[{'WORLD.RGB': first}])
+    for frame in mids:
+        yield dm_env.transition(observation=[{'WORLD.RGB': frame}], reward=0)
+    yield dm_env.termination(observation=[{'WORLD.RGB': last}], reward=0)
 
 
 def _get_frames(path):
-  capture = cv2.VideoCapture(path)
-  while capture.isOpened():
-    ret, bgr_frame = capture.read()
-    if not ret:
-      break
-    rgb_frame = cv2.cvtColor(bgr_frame, cv2.COLOR_BGR2RGB)
-    yield rgb_frame
-  capture.release()
+    capture = cv2.VideoCapture(path)
+    while capture.isOpened():
+        ret, bgr_frame = capture.read()
+        if not ret:
+            break
+        rgb_frame = cv2.cvtColor(bgr_frame, cv2.COLOR_BGR2RGB)
+        yield rgb_frame
+    capture.release()
 
 
 FRAME_SHAPE = (4, 8)
@@ -51,62 +51,63 @@ BLUE_EYE = np.stack([ZERO, ZERO, EYE], axis=-1)
 
 class EvaluationTest(absltest.TestCase):
 
-  def test_video_subject(self):
-    video_path = None
-    step_written = None
+    def test_video_subject(self):
+        video_path = None
+        step_written = None
 
-    def save_path(path):
-      nonlocal video_path
-      video_path = path
+        def save_path(path):
+            nonlocal video_path
+            video_path = path
 
-    tempdir = tempfile.mkdtemp()
-    assert os.path.exists(tempdir)
-    # Use lossless compression for test.
-    subject = evaluation.VideoSubject(tempdir, extension='avi', codec='png ')
-    subject.subscribe(on_next=save_path)
+        tempdir = tempfile.mkdtemp()
+        assert os.path.exists(tempdir)
+        # Use lossless compression for test.
+        subject = evaluation.VideoSubject(tempdir, extension='avi', codec='png ')
+        subject.subscribe(on_next=save_path)
 
-    frames = [RED_EYE, GREEN_EYE, BLUE_EYE]
-    for n, timestep in enumerate(_as_timesteps(frames)):
-      subject.on_next(timestep)
-      if step_written is None and video_path is not None:
-        step_written = n
+        frames = [RED_EYE, GREEN_EYE, BLUE_EYE]
+        for n, timestep in enumerate(_as_timesteps(frames)):
+            subject.on_next(timestep)
+            if step_written is None and video_path is not None:
+                step_written = n
 
-    with self.subTest('video_exists'):
-      self.assertTrue(video_path and os.path.exists(video_path))
+        with self.subTest('video_exists'):
+            self.assertTrue(video_path and os.path.exists(video_path))
 
-    with self.subTest('written_on_final_step'):
-      self.assertEqual(step_written, 2)
+        with self.subTest('written_on_final_step'):
+            self.assertEqual(step_written, 2)
 
-    with self.subTest('contents'):
-      written = list(_get_frames(video_path))
-      np.testing.assert_equal(written, frames)
+        with self.subTest('contents'):
+            written = list(_get_frames(video_path))
+            np.testing.assert_equal(written, frames)
 
-  def test_return_subject(self):
-    episode_return = None
-    step_written = None
+    def test_return_subject(self):
+        episode_return = None
+        step_written = None
 
-    def save_return(ret):
-      nonlocal episode_return
-      episode_return = ret
+        def save_return(ret):
+            nonlocal episode_return
+            episode_return = ret
 
-    subject = evaluation.ReturnSubject()
-    subject.subscribe(on_next=save_return)
+        subject = evaluation.ReturnSubject()
+        subject.subscribe(on_next=save_return)
 
-    timesteps = [
-        dm_env.restart(observation=[{}])._replace(reward=[0, 0]),
-        dm_env.transition(observation=[{}], reward=[2, 4]),
-        dm_env.termination(observation=[{}], reward=[1, 3]),
-    ]
-    for n, timestep in enumerate(timesteps):
-      subject.on_next(timestep)
-      if step_written is None and episode_return is not None:
-        step_written = n
+        timesteps = [
+            dm_env.restart(observation=[{}])._replace(reward=[0, 0]),
+            dm_env.transition(observation=[{}], reward=[2, 4]),
+            dm_env.termination(observation=[{}], reward=[1, 3]),
+        ]
+        for n, timestep in enumerate(timesteps):
+            subject.on_next(timestep)
+            if step_written is None and episode_return is not None:
+                step_written = n
 
-    with self.subTest('written_on_final_step'):
-      self.assertEqual(step_written, 2)
+        with self.subTest('written_on_final_step'):
+            self.assertEqual(step_written, 2)
 
-    with self.subTest('contents'):
-      np.testing.assert_equal(episode_return, [3, 7])
+        with self.subTest('contents'):
+            np.testing.assert_equal(episode_return, [3, 7])
+
 
 if __name__ == '__main__':
-  absltest.main()
+    absltest.main()

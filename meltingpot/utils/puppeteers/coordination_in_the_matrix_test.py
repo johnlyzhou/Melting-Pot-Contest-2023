@@ -41,57 +41,57 @@ _RESOURCE_C = in_the_matrix.Resource(
 
 
 def _observation(inventory, interaction):
-  return {
-      'INVENTORY': np.array(inventory),
-      'INTERACTION_INVENTORIES': np.array(interaction),
-  }
+    return {
+        'INVENTORY': np.array(inventory),
+        'INTERACTION_INVENTORIES': np.array(interaction),
+    }
 
 
 def _goals_from_observations(puppeteer, inventories, interactions, state=None):
-  observations = []
-  for inventory, interaction in itertools.zip_longest(inventories,
-                                                      interactions):
-    observations.append(_observation(inventory, interaction))
-  return puppeteers.goals_from_observations(puppeteer, observations, state)
+    observations = []
+    for inventory, interaction in itertools.zip_longest(inventories,
+                                                        interactions):
+        observations.append(_observation(inventory, interaction))
+    return puppeteers.goals_from_observations(puppeteer, observations, state)
 
 
 class CounterPrevious(parameterized.TestCase):
 
-  def test_counters(self):
-    puppeteer = coordination_in_the_matrix.CoordinateWithPrevious(
-        resources=(_RESOURCE_A, _RESOURCE_B, _RESOURCE_C),
-        margin=1,
-    )
-    inventories = [
-        (1, 1, 1),
-        (1, 2, 1),
-        (3, 2, 1),
-        (3, 3, 1),
-        (2, 3, 1),
-        (1, 2, 1),
-        (1, 2, 3),
-    ]
-    interactions = [
-        ((-1, -1, -1), (-1, -1, -1)),  # neither
-        ((-1, -1, -1), (1, 0, 0)),  # A
-        ((-1, -1, -1), (-1, -1, -1)),  # neither
-        ((-1, -1, -1), (0, 1, 0)),  # B
-        ((-1, -1, -1), (-1, -1, -1)),  # neither
-        ((-1, -1, -1), (0, 0, 1)),  # C
-        ((-1, -1, -1), (-1, -1, -1)),  # neither
-    ]
-    expected = [
-        mock.ANY,  # random
-        _RESOURCE_A.collect_goal,
-        _RESOURCE_A.interact_goal,
-        _RESOURCE_B.collect_goal,
-        _RESOURCE_B.interact_goal,
-        _RESOURCE_C.collect_goal,
-        _RESOURCE_C.interact_goal,
-    ]
-    actual, _ = _goals_from_observations(puppeteer, inventories, interactions)
-    self.assertEqual(actual, expected)
+    def test_counters(self):
+        puppeteer = coordination_in_the_matrix.CoordinateWithPrevious(
+            resources=(_RESOURCE_A, _RESOURCE_B, _RESOURCE_C),
+            margin=1,
+        )
+        inventories = [
+            (1, 1, 1),
+            (1, 2, 1),
+            (3, 2, 1),
+            (3, 3, 1),
+            (2, 3, 1),
+            (1, 2, 1),
+            (1, 2, 3),
+        ]
+        interactions = [
+            ((-1, -1, -1), (-1, -1, -1)),  # neither
+            ((-1, -1, -1), (1, 0, 0)),  # A
+            ((-1, -1, -1), (-1, -1, -1)),  # neither
+            ((-1, -1, -1), (0, 1, 0)),  # B
+            ((-1, -1, -1), (-1, -1, -1)),  # neither
+            ((-1, -1, -1), (0, 0, 1)),  # C
+            ((-1, -1, -1), (-1, -1, -1)),  # neither
+        ]
+        expected = [
+            mock.ANY,  # random
+            _RESOURCE_A.collect_goal,
+            _RESOURCE_A.interact_goal,
+            _RESOURCE_B.collect_goal,
+            _RESOURCE_B.interact_goal,
+            _RESOURCE_C.collect_goal,
+            _RESOURCE_C.interact_goal,
+        ]
+        actual, _ = _goals_from_observations(puppeteer, inventories, interactions)
+        self.assertEqual(actual, expected)
 
 
 if __name__ == '__main__':
-  absltest.main()
+    absltest.main()

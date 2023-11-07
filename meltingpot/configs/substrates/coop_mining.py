@@ -86,7 +86,6 @@ CHAR_PREFAB_MAP = {
 
 _COMPASS = ["N", "E", "S", "W"]
 
-
 SCENE = {
     "name": "scene",
     "components": [
@@ -113,7 +112,6 @@ SCENE = {
     ]
 }
 
-
 WALL = {
     "name": "wall",
     "components": [
@@ -135,7 +133,7 @@ WALL = {
             "component": "Appearance",
             "kwargs": {
                 "renderMode": "ascii_shape",
-                "spriteNames": ["Wall",],
+                "spriteNames": ["Wall", ],
                 "spriteShapes": [shapes.WALL],
                 "palettes": [{"*": (95, 95, 95, 255),
                               "&": (100, 100, 100, 255),
@@ -299,113 +297,112 @@ ORE = {
     ]
 }
 
-
 PLAYER_COLOR_PALETTES = []
 for human_readable_color in colors.human_readable:
-  PLAYER_COLOR_PALETTES.append(shapes.get_palette(human_readable_color))
+    PLAYER_COLOR_PALETTES.append(shapes.get_palette(human_readable_color))
 
 
 def get_avatar_object(num_players: int, player_index: int):
-  """Construct an avatar object."""
-  lua_index = player_index + 1
-  color_palette = PLAYER_COLOR_PALETTES[player_index]
-  avatar_sprite_name = "avatarSprite{}".format(lua_index)
-  avatar_object = {
-      "name": "avatar",
-      "components": [
-          {
-              "component": "StateManager",
-              "kwargs": {
-                  "initialState": "player",
-                  "stateConfigs": [
-                      {"state": "player",
-                       "layer": "upperPhysical",
-                       "sprite": avatar_sprite_name,
-                       "contact": "avatar",
-                       "groups": ["players"]},
+    """Construct an avatar object."""
+    lua_index = player_index + 1
+    color_palette = PLAYER_COLOR_PALETTES[player_index]
+    avatar_sprite_name = "avatarSprite{}".format(lua_index)
+    avatar_object = {
+        "name": "avatar",
+        "components": [
+            {
+                "component": "StateManager",
+                "kwargs": {
+                    "initialState": "player",
+                    "stateConfigs": [
+                        {"state": "player",
+                         "layer": "upperPhysical",
+                         "sprite": avatar_sprite_name,
+                         "contact": "avatar",
+                         "groups": ["players"]},
 
-                      {"state": "playerWait",
-                       "groups": ["playerWaits"]},
-                  ]
-              }
-          },
-          {
-              "component": "Transform",
-          },
-          {
-              "component": "ReadyToShootObservation",
-              "kwargs": {
-                  "zapperComponent": "MineBeam",
-              },
-          },
-          {
-              "component": "Appearance",
-              "kwargs": {
-                  "renderMode": "ascii_shape",
-                  "spriteNames": [avatar_sprite_name],
-                  "spriteShapes": [shapes.CUTE_AVATAR],
-                  "palettes": [color_palette],
-                  "noRotates": [True]
-              }
-          },
-          {
-              "component": "Avatar",
-              "kwargs": {
-                  "index": lua_index,
-                  "aliveState": "player",
-                  "waitState": "playerWait",
-                  "speed": 1.0,
-                  "spawnGroup": "spawnPoints",
-                  "actionOrder": ["move", "turn", "mine"],
-                  "actionSpec": {
-                      "move": {"default": 0, "min": 0, "max": len(_COMPASS)},
-                      "turn": {"default": 0, "min": -1, "max": 1},
-                      "mine": {"default": 0, "min": 0, "max": 1},
-                  },
-                  "view": {
-                      "left": 5,
-                      "right": 5,
-                      "forward": 9,
-                      "backward": 1,
-                      "centered": False
-                  }
-              }
-          },
-          {
-              "component": "MineBeam",
-              "kwargs": {
-                  "cooldownTime": 3,
-                  "beamLength": 3,
-                  "beamRadius": 0,
-                  "agentRole": "none",
-                  "roleRewardForMining": {
-                      "none": [0, 0],
-                      "golddigger": [0, 0.2], "irondigger": [0, 0]},
-                  "roleRewardForExtracting": {
-                      "none": [1, 8],
-                      "golddigger": [-1, 8], "irondigger": [8, -1]},
-              }
-          },
-          {
-              "component": "MiningTracker",
-              "kwargs": {
-                  "numPlayers": num_players,
-                  "numOreTypes": NUM_ORE_TYPES,
-              }
-          },
-      ]
-  }
-  if _ENABLE_DEBUG_OBSERVATIONS:
-    avatar_object["components"].append({
-        "component": "LocationObserver",
-        "kwargs": {"objectIsAvatar": True, "alsoReportOrientation": True},
-    })
+                        {"state": "playerWait",
+                         "groups": ["playerWaits"]},
+                    ]
+                }
+            },
+            {
+                "component": "Transform",
+            },
+            {
+                "component": "ReadyToShootObservation",
+                "kwargs": {
+                    "zapperComponent": "MineBeam",
+                },
+            },
+            {
+                "component": "Appearance",
+                "kwargs": {
+                    "renderMode": "ascii_shape",
+                    "spriteNames": [avatar_sprite_name],
+                    "spriteShapes": [shapes.CUTE_AVATAR],
+                    "palettes": [color_palette],
+                    "noRotates": [True]
+                }
+            },
+            {
+                "component": "Avatar",
+                "kwargs": {
+                    "index": lua_index,
+                    "aliveState": "player",
+                    "waitState": "playerWait",
+                    "speed": 1.0,
+                    "spawnGroup": "spawnPoints",
+                    "actionOrder": ["move", "turn", "mine"],
+                    "actionSpec": {
+                        "move": {"default": 0, "min": 0, "max": len(_COMPASS)},
+                        "turn": {"default": 0, "min": -1, "max": 1},
+                        "mine": {"default": 0, "min": 0, "max": 1},
+                    },
+                    "view": {
+                        "left": 5,
+                        "right": 5,
+                        "forward": 9,
+                        "backward": 1,
+                        "centered": False
+                    }
+                }
+            },
+            {
+                "component": "MineBeam",
+                "kwargs": {
+                    "cooldownTime": 3,
+                    "beamLength": 3,
+                    "beamRadius": 0,
+                    "agentRole": "none",
+                    "roleRewardForMining": {
+                        "none": [0, 0],
+                        "golddigger": [0, 0.2], "irondigger": [0, 0]},
+                    "roleRewardForExtracting": {
+                        "none": [1, 8],
+                        "golddigger": [-1, 8], "irondigger": [8, -1]},
+                }
+            },
+            {
+                "component": "MiningTracker",
+                "kwargs": {
+                    "numPlayers": num_players,
+                    "numOreTypes": NUM_ORE_TYPES,
+                }
+            },
+        ]
+    }
+    if _ENABLE_DEBUG_OBSERVATIONS:
+        avatar_object["components"].append({
+            "component": "LocationObserver",
+            "kwargs": {"objectIsAvatar": True, "alsoReportOrientation": True},
+        })
 
-  return avatar_object
+    return avatar_object
 
 
 def get_avatar_objects(num_players: int):
-  return [get_avatar_object(num_players, i) for i in range(num_players)]
+    return [get_avatar_object(num_players, i) for i in range(num_players)]
 
 
 # PREFABS is a dictionary mapping names to template game objects that can
@@ -419,14 +416,14 @@ PREFABS = {
 # Primitive action components.
 # pylint: disable=bad-whitespace
 # pyformat: disable
-NOOP       = {"move": 0, "turn":  0, "mine": 0}
-FORWARD    = {"move": 1, "turn":  0, "mine": 0}
-STEP_RIGHT = {"move": 2, "turn":  0, "mine": 0}
-BACKWARD   = {"move": 3, "turn":  0, "mine": 0}
-STEP_LEFT  = {"move": 4, "turn":  0, "mine": 0}
-TURN_LEFT  = {"move": 0, "turn": -1, "mine": 0}
-TURN_RIGHT = {"move": 0, "turn":  1, "mine": 0}
-MINE       = {"move": 0, "turn":  0, "mine": 1}
+NOOP = {"move": 0, "turn": 0, "mine": 0}
+FORWARD = {"move": 1, "turn": 0, "mine": 0}
+STEP_RIGHT = {"move": 2, "turn": 0, "mine": 0}
+BACKWARD = {"move": 3, "turn": 0, "mine": 0}
+STEP_LEFT = {"move": 4, "turn": 0, "mine": 0}
+TURN_LEFT = {"move": 0, "turn": -1, "mine": 0}
+TURN_RIGHT = {"move": 0, "turn": 1, "mine": 0}
+MINE = {"move": 0, "turn": 0, "mine": 1}
 # pyformat: enable
 # pylint: enable=bad-whitespace
 
@@ -443,57 +440,57 @@ ACTION_SET = (
 
 
 def get_config():
-  """Default configuration for the coop_mining level."""
-  config = config_dict.ConfigDict()
+    """Default configuration for the coop_mining level."""
+    config = config_dict.ConfigDict()
 
-  # Action set configuration.
-  config.action_set = ACTION_SET
-  # Observation format configuration.
-  config.individual_observation_names = [
-      "RGB",
-      "READY_TO_SHOOT",
-  ]
-  config.global_observation_names = [
-      "WORLD.RGB",
-  ]
+    # Action set configuration.
+    config.action_set = ACTION_SET
+    # Observation format configuration.
+    config.individual_observation_names = [
+        "RGB",
+        "READY_TO_SHOOT",
+    ]
+    config.global_observation_names = [
+        "WORLD.RGB",
+    ]
 
-  # The specs of the environment (from a single-agent perspective).
-  config.action_spec = specs.action(len(ACTION_SET))
-  config.timestep_spec = specs.timestep({
-      "RGB": specs.OBSERVATION["RGB"],
-      "READY_TO_SHOOT": specs.OBSERVATION["READY_TO_SHOOT"],
-      # Debug only (do not use the following observations in policies).
-      "WORLD.RGB": specs.rgb(216, 216),
-  })
+    # The specs of the environment (from a single-agent perspective).
+    config.action_spec = specs.action(len(ACTION_SET))
+    config.timestep_spec = specs.timestep({
+        "RGB": specs.OBSERVATION["RGB"],
+        "READY_TO_SHOOT": specs.OBSERVATION["READY_TO_SHOOT"],
+        # Debug only (do not use the following observations in policies).
+        "WORLD.RGB": specs.rgb(216, 216),
+    })
 
-  # The roles assigned to each player.
-  config.valid_roles = frozenset({"default", "target"})
-  config.default_player_roles = ("default",) * 6
+    # The roles assigned to each player.
+    config.valid_roles = frozenset({"default", "target"})
+    config.default_player_roles = ("default",) * 6
 
-  return config
+    return config
 
 
 def build(
-    roles: Sequence[str],
-    config: config_dict.ConfigDict,
+        roles: Sequence[str],
+        config: config_dict.ConfigDict,
 ) -> Mapping[str, Any]:
-  """Build substrate given player roles."""
-  del config
-  num_players = len(roles)
+    """Build substrate given player roles."""
+    del config
+    num_players = len(roles)
 
-  return dict(
-      levelName="coop_mining",
-      levelDirectory="meltingpot/lua/levels",
-      numPlayers=num_players,
-      # Define upper bound of episode length since episodes end stochastically.
-      maxEpisodeLengthFrames=5000,
-      spriteSize=8,
-      topology="BOUNDED",  # Choose from ["BOUNDED", "TORUS"],
-      simulation={
-          "map": ASCII_MAP,
-          "gameObjects": get_avatar_objects(num_players),
-          "scene": SCENE,
-          "prefabs": PREFABS,
-          "charPrefabMap": CHAR_PREFAB_MAP,
-      },
-  )
+    return dict(
+        levelName="coop_mining",
+        levelDirectory="meltingpot/lua/levels",
+        numPlayers=num_players,
+        # Define upper bound of episode length since episodes end stochastically.
+        maxEpisodeLengthFrames=5000,
+        spriteSize=8,
+        topology="BOUNDED",  # Choose from ["BOUNDED", "TORUS"],
+        simulation={
+            "map": ASCII_MAP,
+            "gameObjects": get_avatar_objects(num_players),
+            "scene": SCENE,
+            "prefabs": PREFABS,
+            "charPrefabMap": CHAR_PREFAB_MAP,
+        },
+    )
